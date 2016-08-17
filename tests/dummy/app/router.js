@@ -7,6 +7,7 @@ const Router = Ember.Router.extend({
 });
 
 Router.map(function() {
+  this.mount('telling-stories', { path: 'stories' });
 });
 
 export default Router;
