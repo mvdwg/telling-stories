@@ -1,26 +1,40 @@
-# Telling-stories
+# telling-stories
 
-This README outlines the details of collaborating on this Ember addon.
+Review and document the features of your application in an easy and fun way!
 
-## Installation
+This Ember addon enhance your development cycle by giving your application the ability to tell all the features it contains in an easy way.
 
-* `git clone` this repository
-* `npm install`
-* `bower install`
+* See a list of all features contained in your application
+* Demo your features just by clicking play
+* If you're new to a project, just grab some popcorn dive in the list of
+  features of the application by watching _recorded_ scenarios.
 
-## Running
+This addon retrieves the list of acceptance tests as features and allows you to run them in a player similar to a video player in a normal or fast speed. Review every feature's acceptance critiria while on it.
 
-* `ember serve`
-* Visit your app at http://localhost:4200.
+## Development
 
-## Running Tests
+### Installation
 
-* `npm test` (Runs `ember try:testall` to test your addon against multiple Ember versions)
-* `ember test`
-* `ember test --server`
+```
+$ ember install telling-stories
+```
 
-## Building
+### Running
 
-* `ember build`
+```
+$ ember serve
+```
 
-For more information on using ember-cli, visit [http://ember-cli.com/](http://ember-cli.com/).
+and then visit your app at http://localhost:4200.
+
+### Tests
+
+```
+$ npm test
+```
+
+## License
+
+telling-stories is licensed under the MIT license.
+
+See [LICENSE](./LICENSE.md) for the full license text.

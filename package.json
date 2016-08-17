@@ -1,7 +1,9 @@
 {
   "name": "telling-stories",
   "version": "0.0.0",
-  "description": "The default blueprint for ember-cli addons.",
+  "description": "Review and document the features of your application in an easy and fun way!",
+  "homepage": "https://github.com/mvdwg/telling-stories#readme",
+  "bugs": "https://github.com/mvdwg/telling-stories/issues",
   "directories": {
     "doc": "doc",
     "test": "tests"
@@ -11,11 +13,14 @@
     "start": "ember server",
     "test": "ember try:each"
   },
-  "repository": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mvdwg/telling-stories.git"
+  },
   "engines": {
     "node": ">= 0.10.0"
   },
-  "author": "",
+  "author": "Santiago Ferreira",
   "license": "MIT",
   "devDependencies": {
     "broccoli-asset-rev": "^2.4.2",
@@ -41,7 +46,13 @@
     "loader.js": "^4.0.1"
   },
   "keywords": [
-    "ember-addon"
+    "acceptance",
+    "ember-addon",
+    "feature",
+    "product owner",
+    "review",
+    "testing",
+    "user story"
   ],
   "dependencies": {
     "ember-cli-babel": "^5.1.6"
