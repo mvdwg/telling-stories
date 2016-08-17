@@ -1,6 +1,6 @@
 # telling-stories
 
-Review and document the features of your application in an easy and fun way!
+Review and document the features of your Ember application in an easy and fun way!
 
 This Ember addon enhance your development cycle by giving your application the ability to tell all the features it contains in an easy way.
 
