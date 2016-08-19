@@ -1,1 +1,15 @@
-Hello world!
+Hello Acceptance Tests!!!
+
+{{#each model as |module|}}
+  <h4>
+    {{module.name}}
+  </h4>
+
+  <ul>
+    {{#each module.tests as |test|}}
+      <li>
+        <a href="/tests/index.html?tellingstories&module={{encode module.name}}&filter={{encode test}}">{{test}}</a>
+      </li>
+    {{/each}}
+  </ul>
+{{/each}}
