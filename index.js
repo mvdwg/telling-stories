@@ -10,6 +10,8 @@ module.exports = EngineAddon.extend({
 
   included: function(app) {
     this._super.included.apply(this, arguments);
+
+    app.import('vendor/qunit-option.js', { type: 'test' });
   },
 
   preprocessTree: function(type, tree) {
@@ -17,5 +19,9 @@ module.exports = EngineAddon.extend({
       return new AcceptanceTestFilter(tree);
     }
     return tree;
+  },
+
+  isDevelopingAddon: function() {
+    return true;
   }
 });
