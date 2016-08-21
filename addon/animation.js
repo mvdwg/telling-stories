@@ -17,7 +17,7 @@ function distance(a,b) {
   return Math.sqrt(Math.pow(b.left - a.left, 2) + Math.pow(b.top - a.top, 2));
 }
 
-function delay(from, to, speed) {
+function delay(from, to) {
   return Math.round(1 / (SPEED / distance(from, to)));
 }
 

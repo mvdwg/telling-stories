@@ -25,5 +25,6 @@ test('interacting like crazy with lots of form elements', function(assert) {
     assert.ok(page.contains('Lorem ipsum dolor'));
   });
 
+  /* global stop */
   return stop();
 });
