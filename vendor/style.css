@@ -1,0 +1,56 @@
+/* Dashboard */
+.ts {
+  display: flex;
+  flex-flow: row;
+}
+
+.ts nav {
+  width: 220px;
+}
+
+.ts nav ul {
+  padding: 0;
+  margin: 0;
+}
+
+.ts nav ul li {
+  list-style: none;
+}
+
+.ts nav a {
+  display: block;
+  border-bottom: 1px dashed silver;
+  padding: 0 0 10px;
+  margin: 0 5px 10px;
+}
+
+.ts iframe {
+  width: 100%;
+  border: 1px solid silver;
+}
+
+/* Player */
+#tsPointer {
+  width: 25px;
+  position: absolute;
+  left: 600px;
+  top: 200px;
+  transition: all 2s;
+}
+
+/* Reset */
+.telling-stories #qunit {
+  display: none;
+}
+
+.telling-stories #ember-testing {
+  zoom: 1;
+}
+
+.telling-stories #ember-testing-container {
+  width: auto;
+  height: 100%;
+  border-style: none;
+  margin: 0;
+  overflow: visible;
+}

@@ -1,28 +1,9 @@
 import { buildSelector } from 'ember-cli-page-object';
+import Animation from './animation';
 
 export default function TellingStoriesContext(pageObjectNode) {
   this.pageObjectNode = pageObjectNode;
 }
-
-function cursor() {
-  let cursor = $('#ember-testing #the-cursor');
-
-  if (!cursor.length) {
-    $('#ember-testing').append($('<img>', {
-      id: 'the-cursor',
-      src: '/telling-stories/mouse_cursor.png',
-      style: 'width:25px;position:absolute;left:0;top:0;transition:all 2s'
-    }));
-
-
-    cursor = $('#ember-testing #the-cursor');
-  }
-
-  return cursor;
-}
-
-/* global delay */
-/* global $ */
 
 TellingStoriesContext.prototype = {
   run(cb) {
@@ -39,25 +20,16 @@ TellingStoriesContext.prototype = {
   },
 
   click(selector, container) {
-    /* global andThen */
-    andThen(function() {
-      let offset = $(selector).offset();
-      cursor().offset(offset);
-    });
-
-    delay(2000);
+    /* global wait */
+    wait().then(Animation.movePointerTo(selector));
 
     /* global click */
     click(selector, container);
   },
 
   fillIn(selector, container, text) {
-    /* global andThen */
-    andThen(function() {
-      let offset = $(selector).offset();
-      cursor().offset(offset);
-    });
-    delay(2000);
+    /* global wait */
+    wait().then(Animation.movePointerTo(selector));
 
     /* global fillIn */
     if (container) {
@@ -68,6 +40,9 @@ TellingStoriesContext.prototype = {
   },
 
   triggerEvent(selector, container, eventName, eventOptions) {
+    /* global wait */
+    wait().then(Animation.sleep(500));
+
     /* global triggerEvent */
     triggerEvent(selector, container, eventName, eventOptions);
   },
@@ -77,7 +52,7 @@ TellingStoriesContext.prototype = {
     let result = find(selector, options.testContainer);
 
     if (result.length === 0) {
-      throw "Ooops!";
+      throw new Error("Ooops!");
     }
   },
 
@@ -100,7 +75,8 @@ TellingStoriesContext.prototype = {
     result = find(selector, options.testContainer);
 
     if (result.length === 0) {
-      throw "Ooops!";
+      console.log(selector);
+      throw new Error("Ooops!");
     }
 
     return result;

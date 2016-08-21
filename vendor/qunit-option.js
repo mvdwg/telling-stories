@@ -4,5 +4,9 @@ jQuery(function() {
       id: 'tellingStories',
       label: 'Tell me the story'
     });
+
+    if (window.QUnit.urlParams.tellingStories) {
+      $('body').addClass('telling-stories');
+    }
   }
 });
