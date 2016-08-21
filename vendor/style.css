@@ -31,10 +31,10 @@
 
 /* Player */
 #tsPointer {
-  width:25px;
-  position:absolute;
-  left:0;
-  top:0;
+  width: 25px;
+  position: absolute;
+  left: 600px;
+  top: 200px;
   transition: all 2s;
 }
 

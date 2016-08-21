@@ -2,12 +2,23 @@ import Ember from 'ember';
 
 const { $, RSVP } = Ember;
 
+// 100px in 1000ms
+const SPEED = 100 / 800;
+
 function sleep(milliseconds) {
   return new RSVP.Promise(function(resolve) {
     window.setTimeout(function() {
       resolve();
     }, milliseconds);
   });
+}
+
+function distance(a,b) {
+  return Math.sqrt(Math.pow(b.left - a.left, 2) + Math.pow(b.top - a.top, 2));
+}
+
+function delay(from, to, speed) {
+  return Math.round(1 / (SPEED / distance(from, to)));
 }
 
 /**
@@ -22,7 +33,7 @@ function pointer(container) {
   if (!pointer.length) {
     $(container).append($('<img>', {
       id: 'tsPointer',
-      src: '/telling-stories/pointer.png',
+      src: '/telling-stories/pointer.png'
     }));
 
     pointer = $('#tsPointer', container);
@@ -36,14 +47,17 @@ function movePointerTo(target) {
     let $target = $(target);
     let offset = $target.offset();
     let width = $target.width() / 2 - 13;
-    let height = $target.height() / 2 + 7;
+    let height = $target.height() / 2 + 3;
 
     offset.left = offset.left + width;
     offset.top = offset.top + height;
 
-    pointer('#ember-testing').offset(offset);
+    let ms = delay(pointer('#ember-testing').offset(), offset, SPEED);
 
-    return sleep(1000);
+    pointer('#ember-testing').offset(offset);
+    pointer('#ember-testing').css('transition', `all ${ms}ms`);
+
+    return sleep(ms + 100); // wait the delay plus a delta
   };
 }
 
