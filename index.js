@@ -12,6 +12,7 @@ module.exports = EngineAddon.extend({
     this._super.included.apply(this, arguments);
 
     app.import('vendor/qunit-option.js', { type: 'test' });
+    app.import('vendor/style.css');
   },
 
   preprocessTree: function(type, tree) {

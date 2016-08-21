@@ -1,15 +1,19 @@
-Hello Acceptance Tests!!!
+<main class="ts">
+  <nav>
+  {{#each modules as |module|}}
+    <h4>
+      {{module.name}}
+    </h4>
 
-{{#each model as |module|}}
-  <h4>
-    {{module.name}}
-  </h4>
+    <ul>
+      {{#each module.tests as |test|}}
+        <li>
+          <a target="player" href="/tests/index.html?tellingStories&module={{encode module.name}}&filter={{encode test}}">{{test}}</a>
+        </li>
+      {{/each}}
+    </ul>
+  {{/each}}
+  </nav>
 
-  <ul>
-    {{#each module.tests as |test|}}
-      <li>
-        <a href="/tests/index.html?tellingStories&module={{encode module.name}}&filter={{encode test}}">{{test}}</a>
-      </li>
-    {{/each}}
-  </ul>
-{{/each}}
+  <iframe id="player" name="player" src="data:text/plain,Pick a feature"></iframe>
+</main>
