@@ -15,7 +15,7 @@ This addon retrieves the list of acceptance tests as features and allows you to 
 
 ### With ember-engines
 
-```js
+```
 $ ember install ember-engines@0.2.11
 $ ember install telling-stories
 ```
@@ -35,7 +35,7 @@ Access http://localhost:4200/telling-stories
 
 ### Without ember-engines
 
-```js
+```
 $ ember install ember-engines@0.2.11
 $ ember install telling-stories
 ```
@@ -56,7 +56,8 @@ export default function() {
   ...
 });
 ```
-__Note that we are registering the passthrough rule before any `this.namespace` call`
+__Note that we are registering the passthrough rule before any `this.namespace` call`__
+
 ## Development
 
 ### Installation
