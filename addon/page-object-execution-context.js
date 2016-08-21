@@ -1,8 +1,5 @@
-import Ember from 'ember';
 import { buildSelector } from 'ember-cli-page-object';
 import Animation from './animation';
-
-const { $ } = Ember;
 
 export default function TellingStoriesContext(pageObjectNode) {
   this.pageObjectNode = pageObjectNode;
@@ -23,25 +20,16 @@ TellingStoriesContext.prototype = {
   },
 
   click(selector, container) {
-    /* global andThen */
-    andThen(function() {
-      Animation.movePointerTo(selector);
-    });
-
-    /* global tsWait */
-    tsWait(2000);
+    /* global wait */
+    wait().then(Animation.movePointerTo(selector));
 
     /* global click */
     click(selector, container);
   },
 
   fillIn(selector, container, text) {
-    /* global andThen */
-    andThen(function() {
-      Animation.movePointerTo(selector);
-    });
-
-    tsWait(2000);
+    /* global wait */
+    wait().then(Animation.movePointerTo(selector));
 
     /* global fillIn */
     if (container) {
@@ -52,7 +40,9 @@ TellingStoriesContext.prototype = {
   },
 
   triggerEvent(selector, container, eventName, eventOptions) {
-    tsWait(500);
+    /* global wait */
+    wait().then(Animation.sleep(500));
+
     /* global triggerEvent */
     triggerEvent(selector, container, eventName, eventOptions);
   },

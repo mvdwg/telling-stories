@@ -1,4 +1,3 @@
-import Ember from 'ember';
 import { registerExecutionContext } from 'ember-cli-page-object/extend';
 import ExecutionContext from '../page-object-execution-context';
 
