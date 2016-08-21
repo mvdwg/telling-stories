@@ -11,6 +11,52 @@ This Ember addon enhance your development cycle by giving your application the a
 
 This addon retrieves the list of acceptance tests as features and allows you to run them in a player similar to a video player in a normal or fast speed. Review every feature's acceptance critiria while on it.
 
+## Usage
+
+### With ember-engines
+
+```js
+$ ember install ember-engines@0.2.11
+$ ember install telling-stories
+```
+
+Change the resolver of your application to use ember-engines ([link](https://github.com/dgeb/ember-engines/blob/8be97d771a64c289eed033feeea2c21566623277/README.md#customizing-the-resolver)).
+
+Edit app/router.js to mount the new engine
+
+```js
+Router.map(function() {
+  this.mount('telling-stories');
+  ...
+});
+```
+
+Access http://localhost:4200/telling-stories
+
+### Without ember-engines
+
+```js
+$ ember install ember-engines@0.2.11
+$ ember install telling-stories
+```
+
+Access http://localhost:4200/tests
+
+You should see a new QUnit "Tell me the story" option on the top nav. By enabling this, your tests will run in player mode.
+
+### Mirage
+
+If you're using mirage you need to add a passthrough rule for `/telling-stories/acceptance.json` route.
+
+`mirage/config.js`
+
+```js
+export default function() {
+  this.passthrough('/telling-stories/acceptance.json');
+  ...
+});
+```
+__Note that we are registering the passthrough rule before any `this.namespace` call`
 ## Development
 
 ### Installation
