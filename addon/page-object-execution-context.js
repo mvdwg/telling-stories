@@ -40,9 +40,15 @@ TellingStoriesContext.prototype = {
     /* global andThen */
     andThen(function() {
       let offset = $(selector).offset();
+      let widthOffset = $(selector).width() / 2 - 13;
+      let heightOffset = $(selector).height() / 2 + 7;
+      offset.left = offset.left + widthOffset;
+      offset.top = offset.top + heightOffset;
+
       cursor().offset(offset);
     });
 
+    /* global delay */
     delay(2000);
 
     /* global click */
