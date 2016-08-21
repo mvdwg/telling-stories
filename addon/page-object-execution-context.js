@@ -14,14 +14,12 @@ function cursor() {
       style: 'width:25px;position:absolute;left:0;top:0;transition:all 2s'
     }));
 
-
     cursor = $('#ember-testing #the-cursor');
   }
 
   return cursor;
 }
 
-/* global delay */
 /* global $ */
 
 TellingStoriesContext.prototype = {
@@ -77,7 +75,7 @@ TellingStoriesContext.prototype = {
     let result = find(selector, options.testContainer);
 
     if (result.length === 0) {
-      throw "Ooops!";
+      throw new Error("Ooops!");
     }
   },
 
@@ -100,7 +98,7 @@ TellingStoriesContext.prototype = {
     result = find(selector, options.testContainer);
 
     if (result.length === 0) {
-      throw "Ooops!";
+      throw new Error("Ooops!");
     }
 
     return result;

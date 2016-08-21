@@ -57,7 +57,7 @@
   "dependencies": {
     "ember-cli-babel": "^5.1.6",
     "ember-cli-htmlbars": "^1.1.0",
-    "ember-cli-page-object": "mvdwg/ember-cli-page-object#telling-stories-player"
+    "ember-cli-page-object": "san650/ember-cli-page-object#master"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config"

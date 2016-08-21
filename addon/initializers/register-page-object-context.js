@@ -1,20 +1,22 @@
 import Ember from 'ember';
-import PageObject from 'ember-cli-page-object';
+import { registerExecutionContext } from 'ember-cli-page-object/extend';
 import ExecutionContext from '../page-object-execution-context';
 
 const { RSVP, $ } = Ember;
 
+if (window.QUnit && window.QUnit.urlParams.tellingStories) {
+  Ember.Test.registerAsyncHelper('delay', function(app, milliseconds) {
+    return new RSVP.Promise(function(resolve) {
+      window.setTimeout(function() {
+        resolve();
+      }, milliseconds);
+    });
+  });
+}
+
 export function initialize(/* application */) {
   if (window.QUnit && window.QUnit.urlParams.tellingStories) {
-    Ember.Test.registerAsyncHelper('delay', function(app, milliseconds) {
-      return new RSVP.Promise(function(resolve) {
-        window.setTimeout(function() {
-          resolve();
-        }, milliseconds);
-      });
-    });
-
-    PageObject.inject(ExecutionContext);
+    registerExecutionContext('acceptance', ExecutionContext);
 
     $('#qunit').css('display','none');
     $('#ember-testing').css('zoom', '1');
