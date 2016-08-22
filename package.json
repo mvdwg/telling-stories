@@ -55,6 +55,10 @@
     "user story"
   ],
   "dependencies": {
+    "broccoli-funnel": "^1.0.6",
+    "broccoli-merge-trees": "^1.1.4",
+    "broccoli-tree-traverser": "^0.1.1",
+    "broccoli-writer": "^0.1.1",
     "ember-cli-babel": "^5.1.6",
     "ember-cli-htmlbars": "^1.1.0",
     "ember-cli-page-object": "san650/ember-cli-page-object#master"

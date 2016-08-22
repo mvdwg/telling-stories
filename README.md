@@ -46,7 +46,7 @@ You should see a new QUnit "Tell me the story" option on the top nav. By enablin
 
 ### Mirage
 
-If you're using mirage you need to add a passthrough rule for `/telling-stories/acceptance.json` route.
+If you're using mirage you need to add a passthrough rule for `/telling-stories.json` route.
 
 `mirage/config.js`
 
@@ -70,6 +70,12 @@ $ ember install telling-stories
 
 ```
 $ ember serve
+```
+
+Building the app with logger enabled
+
+```
+$ DEBUG=telling-stories DEBUG_LEVEL=trace ember build
 ```
 
 and then visit your app at http://localhost:4200.
