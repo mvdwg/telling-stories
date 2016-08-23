@@ -1,6 +1,5 @@
 /* jshint node: true */
 'use strict';
-var EngineAddon = require('ember-engines/lib/engine-addon');
 var AcceptanceTestFilter = require('./lib/acceptance-test-filter');
 var Funnel = require('broccoli-funnel');
 var BroccoliMergeTrees  = require('broccoli-merge-trees');
@@ -8,7 +7,7 @@ var logger = require('heimdalljs-logger')('telling-stories');
 
 var fs = require('fs');
 
-module.exports = EngineAddon.extend({
+module.exports = {
   name: 'telling-stories',
 
   included: function(app) {
@@ -38,4 +37,4 @@ module.exports = EngineAddon.extend({
   isDevelopingAddon: function() {
     return true;
   }
-});
+};
