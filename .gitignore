@@ -3,7 +3,6 @@
 # compiled output
 /dist
 /tmp
-/public/acceptance.json
 
 # dependencies
 /node_modules

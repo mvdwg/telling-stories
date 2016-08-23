@@ -18,6 +18,7 @@ This addon retrieves the list of acceptance tests as features and allows you to 
 ```
 $ ember install ember-engines@0.2.11
 $ ember install telling-stories
+$ ember install telling-stories-dashboard
 ```
 
 Change the resolver of your application to use ember-engines ([link](https://github.com/dgeb/ember-engines/blob/8be97d771a64c289eed033feeea2c21566623277/README.md#customizing-the-resolver)).
@@ -26,17 +27,16 @@ Edit app/router.js to mount the new engine
 
 ```js
 Router.map(function() {
-  this.mount('telling-stories');
+  this.mount('telling-stories-dashboard');
   ...
 });
 ```
 
-Access http://localhost:4200/telling-stories
+Access http://localhost:4200/telling-stories-dashboard
 
 ### Without ember-engines
 
 ```
-$ ember install ember-engines@0.2.11
 $ ember install telling-stories
 ```
 
@@ -46,13 +46,13 @@ You should see a new QUnit "Tell me the story" option on the top nav. By enablin
 
 ### Mirage
 
-If you're using mirage you need to add a passthrough rule for `/telling-stories/acceptance.json` route.
+If you're using mirage you need to add a passthrough rule for `/telling-stories.json` route.
 
 `mirage/config.js`
 
 ```js
 export default function() {
-  this.passthrough('/telling-stories/acceptance.json');
+  this.passthrough('/telling-stories.json');
   ...
 });
 ```
@@ -70,6 +70,12 @@ $ ember install telling-stories
 
 ```
 $ ember serve
+```
+
+Building the app with logger enabled
+
+```
+$ DEBUG=telling-stories DEBUG_LEVEL=trace ember build
 ```
 
 and then visit your app at http://localhost:4200.

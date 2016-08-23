@@ -39,7 +39,6 @@
     "ember-cli-uglify": "^1.2.0",
     "ember-data": "^2.7.0",
     "ember-disable-prototype-extensions": "^1.1.0",
-    "ember-engines": "0.2.11",
     "ember-export-application-global": "^1.0.5",
     "ember-load-initializers": "^0.5.1",
     "ember-resolver": "^2.0.3",
@@ -55,9 +54,14 @@
     "user story"
   ],
   "dependencies": {
+    "broccoli-funnel": "^1.0.6",
+    "broccoli-merge-trees": "^1.1.4",
+    "broccoli-tree-traverser": "^0.1.1",
+    "broccoli-writer": "^0.1.1",
     "ember-cli-babel": "^5.1.6",
     "ember-cli-htmlbars": "^1.1.0",
-    "ember-cli-page-object": "san650/ember-cli-page-object#master"
+    "ember-cli-page-object": "san650/ember-cli-page-object#master",
+    "telling-stories-dashboard": "github:mvdwg/telling-stories-dashboard"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config"
