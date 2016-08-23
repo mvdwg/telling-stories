@@ -60,7 +60,8 @@
     "broccoli-writer": "^0.1.1",
     "ember-cli-babel": "^5.1.6",
     "ember-cli-htmlbars": "^1.1.0",
-    "ember-cli-page-object": "san650/ember-cli-page-object#master"
+    "ember-cli-page-object": "san650/ember-cli-page-object#master",
+    "telling-stories-dashboard": "github:mvdwg/telling-stories-dashboard"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config"
