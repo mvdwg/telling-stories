@@ -14,7 +14,7 @@ module.exports = {
     this._super.included.apply(this, arguments);
 
     app.import('vendor/qunit-option.js', { type: 'test' });
-    app.import('vendor/style.css');
+    app.import('vendor/telling-stories.css', { type: 'test' });
   },
 
   treeFor: function(type) {
