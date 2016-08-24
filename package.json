@@ -42,7 +42,9 @@
     "ember-export-application-global": "^1.0.5",
     "ember-load-initializers": "^0.5.1",
     "ember-resolver": "^2.0.3",
-    "loader.js": "^4.0.1"
+    "loader.js": "^4.0.1",
+    "ember-cli-page-object": "san650/ember-cli-page-object",
+    "telling-stories-dashboard": "mvdwg/telling-stories-dashboard"
   },
   "keywords": [
     "acceptance",
@@ -59,9 +61,7 @@
     "broccoli-tree-traverser": "^0.1.1",
     "broccoli-writer": "^0.1.1",
     "ember-cli-babel": "^5.1.6",
-    "ember-cli-htmlbars": "^1.1.0",
-    "ember-cli-page-object": "san650/ember-cli-page-object#master",
-    "telling-stories-dashboard": "github:mvdwg/telling-stories-dashboard"
+    "ember-cli-htmlbars": "^1.1.0"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config"
