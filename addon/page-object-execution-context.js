@@ -19,6 +19,11 @@ TellingStoriesContext.prototype = {
     return this.pageObjectNode;
   },
 
+  visit(path) {
+    /* global visit */
+    visit(path);
+  },
+
   click(selector, container) {
     /* global wait */
     wait().then(Animation.movePointerTo(selector));
