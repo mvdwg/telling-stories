@@ -43,8 +43,8 @@
     "ember-load-initializers": "^0.5.1",
     "ember-resolver": "^2.0.3",
     "loader.js": "^4.0.1",
-    "ember-cli-page-object": "san650/ember-cli-page-object",
-    "telling-stories-dashboard": "mvdwg/telling-stories-dashboard"
+    "ember-cli-page-object": "^1.6.0",
+    "telling-stories-dashboard": "1.0.0-alpha.1"
   },
   "keywords": [
     "acceptance",

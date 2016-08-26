@@ -4,12 +4,11 @@ module.exports = {
 
   normalizeEntityName: function() {},
 
-  afterInstall: function(/*options*/) {
-    this.addAddonsToProject({
-      // To reference packages using npm version see https://github.com/runspired/ember-radar/blob/27e2d6acacbda2c5e9a36c64f111e4f728fa7b2a/blueprints/ember-radar/index.js
+  afterInstall: function() {
+    return this.addAddonsToProject({
       packages: [
-        'ember-cli-page-object',
-        'telling-stories-dashboard'
+        { name: 'ember-cli-page-object', version: '^1.6.0' },
+        { name: 'telling-stories-dashboard', version: '1.0.0-alpha.1' }
       ]
     });
   }
