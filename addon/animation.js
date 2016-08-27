@@ -3,7 +3,7 @@ import Ember from 'ember';
 const { $, RSVP } = Ember;
 
 // 100px in 1000ms
-const SPEED = 100 / 800;
+const SPEED = 100 / 400;
 
 function sleep(milliseconds) {
   return new RSVP.Promise(function(resolve) {
@@ -11,6 +11,15 @@ function sleep(milliseconds) {
       resolve();
     }, milliseconds);
   });
+}
+
+function clickEffectBefore() {
+  pointer('#ember-testing').addClass('tsClick');
+  return sleep(300);
+}
+
+function clickEffectAfter() {
+  return sleep(1000).then(() => pointer('#ember-testing').removeClass('tsClick'));
 }
 
 function distance(a,b) {
@@ -26,15 +35,15 @@ function delay(from, to) {
  *
  * @param {HTMLElement|jQuery|String} container - where to look for the mouse pointer
  * @return {jQuery} element that represents the mouse pointer
- */
-function pointer(container) {
-  let pointer = $('#tsPointer', container);
-
+ */ function pointer(container) { let pointer = $('#tsPointer', container);
   if (!pointer.length) {
-    $(container).append($('<img>', {
-      id: 'tsPointer',
-      src: '/telling-stories/pointer.png'
-    }));
+    let $img = $('<img>', { src: '/telling-stories/pointer.png' });
+    let $click = $('<span>', { id: 'tsPointerClickEffect'});
+    let $cursor = $('<span>', { id: 'tsPointer' });
+
+    $cursor.append($click, $img);
+
+    $(container).append($cursor);
 
     pointer = $('#tsPointer', container);
   }
@@ -46,7 +55,7 @@ function movePointerTo(target) {
   return function() {
     let $target = $(target);
     let offset = $target.offset();
-    let width = $target.width() / 2 - 13;
+    let width = $target.width() / 2;
     let height = $target.height() / 2 + 3;
 
     offset.left = offset.left + width;
@@ -55,7 +64,7 @@ function movePointerTo(target) {
     let ms = delay(pointer('#ember-testing').offset(), offset, SPEED);
 
     pointer('#ember-testing').offset(offset);
-    pointer('#ember-testing').css('transition', `all ${ms}ms`);
+    pointer('#ember-testing').css('transition', `top ${ms}ms cubic-bezier(0.4, 0, 1, 1), left ${ms}ms linear`);
 
     return sleep(ms + 100); // wait the delay plus a delta
   };
@@ -64,6 +73,12 @@ function movePointerTo(target) {
 export default {
   pointer,
   movePointerTo,
+  clickEffectBefore() {
+    return () => clickEffectBefore();
+  },
+  clickEffectAfter() {
+    return () => clickEffectAfter();
+  },
   sleep(milliseconds) {
     return () => sleep(milliseconds);
   }

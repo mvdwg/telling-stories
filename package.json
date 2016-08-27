@@ -20,7 +20,12 @@
   "engines": {
     "node": ">= 0.10.0"
   },
-  "author": "Santiago Ferreira",
+  "author": [
+    "Ignacio Ferreira <hidnasio@gmail.com>",
+    "Juan Azambuja <jmazambuja@gmail.com>",
+    "Marcelo Dominguez <marcelo@mimiquate.com>",
+    "Santiago Ferreira <san650@gmail.com>"
+  ],
   "license": "MIT",
   "devDependencies": {
     "broccoli-asset-rev": "^2.4.2",
