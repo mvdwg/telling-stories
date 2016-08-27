@@ -63,7 +63,9 @@
     "broccoli-writer": "^0.1.1",
     "ember-cli-babel": "^5.1.6",
     "ember-cli-htmlbars": "^1.1.0",
-    "exists-sync": "0.0.3"
+    "exists-sync": "0.0.3",
+    "heimdalljs-logger": "^0.1.7",
+    "rsvp": "^3.2.1"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config"
