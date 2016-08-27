@@ -1,4 +1,5 @@
 # telling-stories
+[![Build Status](https://travis-ci.org/mvdwg/telling-stories.svg?branch=master)](https://travis-ci.org/mvdwg/telling-stories)
 
 Review and document the features of your Ember application in an easy and fun way!
 
