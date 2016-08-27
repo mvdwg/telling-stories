@@ -1,10 +1,44 @@
 /* Player */
 #tsPointer {
-  width: 25px;
   position: absolute;
   left: 600px;
   top: 200px;
-  transition: all 2s;
+  z-index: 2;
+}
+
+#tsPointer img {
+  width: 29px;
+}
+
+#tsPointer.tsClick {
+  animation: tsClick 0.2s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forward;
+}
+
+#tsPointer.tsClick:after {
+  content: "";
+  border-radius: 50%;
+  height: 35px;
+  width: 35px;
+  position: absolute;
+  margin: -17px 0 0 -38px;
+  animation: tsPulsate .5s ease-out;
+  animation-iteration-count: 1;
+  opacity: 0;
+  box-shadow: 0 0 1px 2px rgba(0,0,0,0.4);
+  z-index: -1;
+}
+
+@keyframes tsPulsate {
+  0% { transform: scale(0.1, 0.1); opacity: 0.0;}
+  50% { opacity: .5; }
+  100% { transform: scale(1.2, 1.2); opacity: 0;}
+}
+
+@keyframes tsClick {
+  0% { transform: rotateX(0);}
+  100% { transform: rotateX(30deg);}
 }
 
 /* Reset */
