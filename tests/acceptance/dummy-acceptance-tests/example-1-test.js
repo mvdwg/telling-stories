@@ -12,7 +12,7 @@ test('interacting like crazy with lots of form elements', function(assert) {
   page.visit();
 
   andThen(function() {
-    assert.equal(currentURL(), '/stories');
+    assert.equal(currentURL(), '/playground');
   });
 
   page
@@ -24,7 +24,4 @@ test('interacting like crazy with lots of form elements', function(assert) {
   andThen(function() {
     assert.ok(page.contains('Lorem ipsum dolor'));
   });
-
-  /* global stop */
-  return stop();
 });

@@ -17,6 +17,7 @@ export default function(name, options = {}) {
 
     afterEach() {
       let afterEach = options.afterEach && options.afterEach.apply(this, arguments);
+      afterEach = window.require('telling-stories').shutdown(afterEach);
       return Promise.resolve(afterEach).then(() => destroyApp(this.application));
     }
   });

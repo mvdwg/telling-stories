@@ -1,4 +1,5 @@
 # telling-stories
+[![Build Status](https://travis-ci.org/mvdwg/telling-stories.svg?branch=master)](https://travis-ci.org/mvdwg/telling-stories)
 
 Review and document the features of your Ember application in an easy and fun way!
 
@@ -18,7 +19,6 @@ This addon retrieves the list of acceptance tests as features and allows you to 
 ```
 $ ember install ember-engines@0.2.11
 $ ember install telling-stories
-$ ember install telling-stories-dashboard
 ```
 
 Change the resolver of your application to use ember-engines ([link](https://github.com/dgeb/ember-engines/blob/8be97d771a64c289eed033feeea2c21566623277/README.md#customizing-the-resolver)).
