@@ -5,6 +5,8 @@ const { $, RSVP } = Ember;
 // 100px in 1000ms
 const SPEED = 100 / 400;
 
+const SCROLL_SPEED = 2000;
+
 function sleep(milliseconds) {
   return new RSVP.Promise(function(resolve) {
     window.setTimeout(function() {
@@ -35,7 +37,10 @@ function delay(from, to) {
  *
  * @param {HTMLElement|jQuery|String} container - where to look for the mouse pointer
  * @return {jQuery} element that represents the mouse pointer
- */ function pointer(container) { let pointer = $('#tsPointer', container);
+ */
+function pointer(container) {
+  let pointer = $('#tsPointer', container);
+
   if (!pointer.length) {
     let $img = $('<img>', { src: '/telling-stories/pointer.png' });
     let $click = $('<span>', { id: 'tsPointerClickEffect'});
@@ -66,8 +71,31 @@ function movePointerTo(target) {
     pointer('#ember-testing').offset(offset);
     pointer('#ember-testing').css('transition', `top ${ms}ms cubic-bezier(0.4, 0, 1, 1), left ${ms}ms linear`);
 
+    if(!isElementInView(target)) {
+      scrollToElement(target);
+    }
+
     return sleep(ms + 100); // wait the delay plus a delta
   };
+}
+
+function isElementInView(element, fullyInView) {
+  let pageTop = $(window).scrollTop();
+  let pageBottom = pageTop + $(window).height();
+  let elementTop = $(element).offset().top;
+  let elementBottom = elementTop + $(element).height();
+
+  if (fullyInView === false) {
+      return ((pageTop < elementTop) && (pageBottom > elementBottom));
+  } else {
+      return ((elementBottom <= pageBottom) && (elementTop >= pageTop));
+  }
+}
+
+function scrollToElement(element) {
+  $('html, body').animate({
+    scrollTop: $(element).offset().top
+  }, SCROLL_SPEED);
 }
 
 export default {
