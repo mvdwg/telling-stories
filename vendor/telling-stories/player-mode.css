@@ -3,7 +3,7 @@
   position: absolute;
   left: 600px;
   top: 200px;
-  z-index: 2;
+  z-index: 999999999;
 }
 
 #tsPointer img {
@@ -48,6 +48,8 @@
 
 .telling-stories #ember-testing {
   zoom: 1;
+  transform: none;
+  width: 100%;
 }
 
 .telling-stories #ember-testing-container {
@@ -56,4 +58,6 @@
   border-style: none;
   margin: 0;
   overflow: visible;
+  top: 0;
+  right: 0;
 }
