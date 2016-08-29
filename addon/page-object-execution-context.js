@@ -84,7 +84,6 @@ TellingStoriesContext.prototype = {
     result = find(selector, options.testContainer);
 
     if (result.length === 0) {
-      console.log(selector);
       throw new Error("Ooops!");
     }
 

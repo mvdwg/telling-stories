@@ -18,7 +18,7 @@
     "url": "https://github.com/mvdwg/telling-stories.git"
   },
   "engines": {
-    "node": ">= 0.10.0"
+    "node": ">= 4.0.0"
   },
   "author": [
     "Ignacio Ferreira <hidnasio@gmail.com>",
