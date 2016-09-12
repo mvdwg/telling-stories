@@ -17,7 +17,7 @@ This addon retrieves the list of acceptance tests as features and allows you to 
 ### With ember-engines
 
 ```
-$ ember install ember-engines@0.2.11
+$ ember install ember-engines@0.3.0
 $ ember install telling-stories
 ```
 
