@@ -27,7 +27,7 @@ TellingStoriesContext.prototype = {
   click(selector, container) {
     /* global wait */
     wait()
-      .then(Animation.movePointerTo(selector))
+      .then(Animation.movePointerTo(selector, container))
       .then(Animation.clickEffectBefore());
 
     /* global click */
@@ -38,7 +38,7 @@ TellingStoriesContext.prototype = {
 
   fillIn(selector, container, text) {
     /* global wait */
-    wait().then(Animation.movePointerTo(selector));
+    wait().then(Animation.movePointerTo(selector, container));
 
     /* global fillIn */
     if (container) {

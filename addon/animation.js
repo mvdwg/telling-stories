@@ -56,9 +56,9 @@ function pointer(container) {
   return pointer;
 }
 
-function movePointerTo(target) {
+function movePointerTo(target, container) {
   return function() {
-    let $target = $(target);
+    let $target = $(target, container);
     let offset = $target.offset();
     let width = $target.width() / 2;
     let height = $target.height() / 2 + 3;
@@ -71,19 +71,19 @@ function movePointerTo(target) {
     pointer('#ember-testing').offset(offset);
     pointer('#ember-testing').css('transition', `top ${ms}ms cubic-bezier(0.4, 0, 1, 1), left ${ms}ms linear`);
 
-    if(!isElementInView(target)) {
-      scrollToElement(target);
+    if(!isElementInView($target)) {
+      scrollToElement($target);
     }
 
     return sleep(ms + 100); // wait the delay plus a delta
   };
 }
 
-function isElementInView(element, fullyInView) {
+function isElementInView($element, fullyInView) {
   let pageTop = $(window).scrollTop();
   let pageBottom = pageTop + $(window).height();
-  let elementTop = $(element).offset().top;
-  let elementBottom = elementTop + $(element).height();
+  let elementTop = $element.offset().top;
+  let elementBottom = elementTop + $element.height();
 
   if (fullyInView === false) {
       return ((pageTop < elementTop) && (pageBottom > elementBottom));
@@ -92,9 +92,9 @@ function isElementInView(element, fullyInView) {
   }
 }
 
-function scrollToElement(element) {
+function scrollToElement($element) {
   $('html, body').animate({
-    scrollTop: $(element).offset().top
+    scrollTop: $element.offset().top
   }, SCROLL_SPEED);
 }
 
