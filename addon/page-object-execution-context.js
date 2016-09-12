@@ -1,6 +1,8 @@
 import { buildSelector } from 'ember-cli-page-object';
 import Animation from './animation';
 
+const defaultContainer = '#ember-testing';
+
 export default function TellingStoriesContext(pageObjectNode) {
   this.pageObjectNode = pageObjectNode;
 }
@@ -27,7 +29,7 @@ TellingStoriesContext.prototype = {
   click(selector, container) {
     /* global wait */
     wait()
-      .then(Animation.movePointerTo(selector, container))
+      .then(Animation.movePointerTo(selector, container || defaultContainer))
       .then(Animation.clickEffectBefore());
 
     /* global click */
@@ -38,7 +40,9 @@ TellingStoriesContext.prototype = {
 
   fillIn(selector, container, text) {
     /* global wait */
-    wait().then(Animation.movePointerTo(selector, container));
+    wait()
+      .then(Animation.movePointerTo(selector, container || defaultContainer))
+      .then(Animation.clickEffectBefore());
 
     /* global fillIn */
     if (container) {

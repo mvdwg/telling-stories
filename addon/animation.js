@@ -2,8 +2,8 @@ import Ember from 'ember';
 
 const { $, RSVP } = Ember;
 
-// 100px in 1000ms
-const SPEED = 100 / 400;
+// 100px in 300ms
+const SPEED = 100 / 300;
 
 const SCROLL_SPEED = 2000;
 
@@ -17,11 +17,11 @@ function sleep(milliseconds) {
 
 function clickEffectBefore() {
   pointer('#ember-testing').addClass('tsClick');
-  return sleep(300);
+  return sleep(200);
 }
 
 function clickEffectAfter() {
-  return sleep(1000).then(() => pointer('#ember-testing').removeClass('tsClick'));
+  return sleep(500).then(() => pointer('#ember-testing').removeClass('tsClick'));
 }
 
 function distance(a,b) {
