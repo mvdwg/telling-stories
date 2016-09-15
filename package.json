@@ -18,7 +18,7 @@
     "url": "https://github.com/mvdwg/telling-stories.git"
   },
   "engines": {
-    "node": ">= 0.10.0"
+    "node": ">= 4.0.0"
   },
   "author": [
     "Ignacio Ferreira <hidnasio@gmail.com>",
@@ -49,7 +49,7 @@
     "ember-export-application-global": "^1.0.5",
     "ember-load-initializers": "^0.5.1",
     "ember-resolver": "^2.0.3",
-    "telling-stories-dashboard": "1.0.0-alpha.2",
+    "telling-stories-dashboard": "1.0.0-alpha.3",
     "loader.js": "^4.0.1"
   },
   "keywords": [
