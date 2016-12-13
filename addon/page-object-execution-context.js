@@ -7,6 +7,8 @@ export default function TellingStoriesContext(pageObjectNode) {
   this.pageObjectNode = pageObjectNode;
 }
 
+let previousElement = null;
+
 TellingStoriesContext.prototype = {
   run(cb) {
     return cb(this);
@@ -76,6 +78,8 @@ TellingStoriesContext.prototype = {
     /* global find */
     result = find(selector, options.testContainer);
 
+    this.attention(result);
+
     return result;
   },
 
@@ -91,6 +95,20 @@ TellingStoriesContext.prototype = {
       throw new Error("Ooops!");
     }
 
+    this.attention(result);
+
     return result;
+  },
+
+  attention(element) {
+    wait().then(() => {
+      if (previousElement) {
+        previousElement.removeClass('tsAttention');
+      }
+
+      previousElement = element.addClass('tsAttention');
+
+      return Animation.sleep(1000)();
+    });
   }
 };

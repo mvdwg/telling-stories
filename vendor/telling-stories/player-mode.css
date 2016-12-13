@@ -41,6 +41,20 @@
   100% { transform: rotateX(30deg);}
 }
 
+.tsAttention {
+  animation: tsAttention 1s linear;
+  animation-fill-mode: none;
+  animation-iteration-count: 1;
+}
+
+@keyframes tsAttention {
+  0% { opacity: 1; }
+  25% { opacity: .5; }
+  50% { opacity: 1; }
+  75% { opacity: .5; }
+  100% { opacity: 1; }
+}
+
 /* Reset */
 .telling-stories #qunit {
   display: none;
