@@ -14,62 +14,17 @@ This addon retrieves the list of acceptance tests as features and allows you to 
 
 ## Usage
 
-### With ember-engines
-
-```
-$ ember install ember-engines@0.3.0
-$ ember install telling-stories
-```
-
-Change the resolver of your application to use ember-engines ([link](https://github.com/dgeb/ember-engines/blob/8be97d771a64c289eed033feeea2c21566623277/README.md#customizing-the-resolver)).
-
-Edit app/router.js to mount the new engine
-
-```js
-Router.map(function() {
-  this.mount('telling-stories-dashboard');
-  ...
-});
-```
-
-Access http://localhost:4200/telling-stories-dashboard
-
-### Without ember-engines
-
 ```
 $ ember install telling-stories
+$ ember serve
 ```
 
-Access http://localhost:4200/tests
-
-You should see a new QUnit "Tell me the story" option on the top nav. By enabling this, your tests will run in player mode.
-
-### Mirage
-
-If you're using mirage you need to add a passthrough rule for `/telling-stories.json` route.
-
-`mirage/config.js`
-
-```js
-export default function() {
-  this.passthrough('/telling-stories.json');
-  ...
-});
-```
-__Note that we are registering the passthrough rule before any `this.namespace` call`__
+Access http://localhost:4200/tests and you should see a new QUnit "Tell me the story" option on the top nav. By enabling this, your tests will run in player mode.
 
 ## Development
 
-### Installation
-
 ```
 $ ember install telling-stories
-```
-
-### Running
-
-```
-$ ember serve
 ```
 
 Building the app with logger enabled
