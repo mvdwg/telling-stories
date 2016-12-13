@@ -1,11 +1,5 @@
 /* jshint node: true */
 'use strict';
-var AcceptanceTestFilter = require('./lib/acceptance-test-filter');
-var Funnel = require('broccoli-funnel');
-var BroccoliMergeTrees  = require('broccoli-merge-trees');
-var logger = require('heimdalljs-logger')('telling-stories');
-
-var fs = require('fs');
 
 module.exports = {
   name: 'telling-stories',
@@ -18,20 +12,9 @@ module.exports = {
   },
 
   treeFor: function(type) {
-    var tree = this._super.treeFor.apply(this, arguments);
+    var AcceptanceTestFilter = require('./lib/acceptance-test-filter');
 
-    if (type === 'public') {
-      if (tree) {
-        return new BroccoliMergeTrees([
-          tree,
-          new AcceptanceTestFilter('./tests/acceptance')
-        ]);
-      } else {
-        return new AcceptanceTestFilter('./tests/acceptance');
-      }
-    }
-
-    return tree;
+    return new AcceptanceTestFilter('./tests/acceptance');
   },
 
   isDevelopingAddon: function() {
