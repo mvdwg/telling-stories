@@ -5,13 +5,25 @@ module.exports = {
   name: 'telling-stories',
 
   included: function(app) {
+    if (!this.shouldIncludeFiles()) {
+      return;
+    }
+
     this._super.included.apply(this, arguments);
 
     app.import('vendor/telling-stories/qunit-configuration.js', { type: 'test' });
     app.import('vendor/telling-stories/player-mode.css', { type: 'test' });
   },
 
-  treeFor: function(type) {
+  treeFor: function() {
+    if (!this.shouldIncludeFiles()) {
+      return;
+    }
+
+    return this._super.treeFor.apply(this, arguments);
+  },
+
+  treeForPublic: function() {
     var AcceptanceTestFilter = require('./lib/acceptance-test-filter');
 
     return new AcceptanceTestFilter('./tests/acceptance');
@@ -19,5 +31,9 @@ module.exports = {
 
   isDevelopingAddon: function() {
     return true;
+  },
+
+  shouldIncludeFiles: function() {
+    return this.app.env !== 'production';
   }
 };
