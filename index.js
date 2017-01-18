@@ -23,12 +23,6 @@ module.exports = {
     return this._super.treeFor.apply(this, arguments);
   },
 
-  treeForPublic: function() {
-    var AcceptanceTestFilter = require('./lib/acceptance-test-filter');
-
-    return new AcceptanceTestFilter('./tests/acceptance');
-  },
-
   isDevelopingAddon: function() {
     return true;
   },
