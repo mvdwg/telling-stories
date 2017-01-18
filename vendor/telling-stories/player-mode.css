@@ -54,24 +54,3 @@
   75% { opacity: .5; }
   100% { opacity: 1; }
 }
-
-/* Reset */
-.telling-stories #qunit {
-  display: none;
-}
-
-.telling-stories #ember-testing {
-  zoom: 1;
-  transform: none;
-  width: 100%;
-}
-
-.telling-stories #ember-testing-container {
-  width: auto;
-  height: 100%;
-  border-style: none;
-  margin: 0;
-  overflow: visible;
-  top: 0;
-  right: 0;
-}
