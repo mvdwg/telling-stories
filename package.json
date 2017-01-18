@@ -60,11 +60,6 @@
     "user story"
   ],
   "dependencies": {
-    "broccoli-tree-traverser": "^0.1.1",
-    "broccoli-writer": "^0.1.1",
-    "ember-cli-babel": "^5.1.6",
-    "ember-cli-htmlbars": "^1.1.0",
-    "rsvp": "^3.2.1"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config"
