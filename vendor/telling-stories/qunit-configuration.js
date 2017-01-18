@@ -6,6 +6,7 @@ jQuery(function() {
     });
 
     if (window.QUnit.urlParams.tellingStories) {
+      window.QUnit.urlParams.devmode = true;
       $('body').addClass('telling-stories');
     }
   }
