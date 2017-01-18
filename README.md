@@ -1,16 +1,30 @@
 # telling-stories
 [![Build Status](https://travis-ci.org/mvdwg/telling-stories.svg?branch=master)](https://travis-ci.org/mvdwg/telling-stories)
 
-Review and document the features of your Ember application in an easy and fun way!
+Acceptance tests are great, they run at machine speed and validate all
+your features are working as expected, this is awesome, what if we wanted
+to show a human how our features behave?
 
-This Ember addon enhance your development cycle by giving your application the ability to tell all the features it contains in an easy way.
+Telling stories is an addon that plays your acceptance tests,
+simulating an actual human using your app, doubling the value of your acceptance tests!
 
+These are main features:
 * See a list of all features contained in your application
 * Demo your features just by clicking play
-* If you're new to a project, just grab some popcorn dive in the list of
-  features of the application by watching _recorded_ scenarios.
+* See how a user would interact with the elements of your app
+* Just works™
 
-This addon retrieves the list of acceptance tests as features and allows you to run them in a player similar to a video player in a normal or fast speed. Review every feature's acceptance critiria while on it.
+![](http://g.recordit.co/bCo2jO4tCp.gif)
+
+## How does it work?
+
+`telling-stories` grabs all your acceptance tests and list them
+so they can be show cased in a convenient way.
+
+In order to reproduce the tests as a user would, `telling-stories`
+relies on `ember-cli-page-object` to interact with the page. This means
+only tests written using the mentioned addon will enjoy the benefits of
+`telling-stories`
 
 ## Usage
 
@@ -19,7 +33,8 @@ $ ember install telling-stories
 $ ember serve
 ```
 
-Access http://localhost:4200/tests and you should see a new QUnit "Tell me the story" option on the top nav. By enabling this, your tests will run in player mode.
+Access http://localhost:4200/tests and you should see a new QUnit "Tell me the story" option on the top nav.
+By enabling it, your tests will run in "human" mode.
 
 ## Development
 
