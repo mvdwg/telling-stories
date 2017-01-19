@@ -28,6 +28,6 @@ module.exports = {
   },
 
   shouldIncludeFiles: function() {
-    return this.app.env !== 'production';
+    return !!this.app.tests;
   }
 };
