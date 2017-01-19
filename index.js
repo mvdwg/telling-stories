@@ -5,6 +5,13 @@ module.exports = {
   name: 'telling-stories',
 
   included: function(app) {
+    // see: https://github.com/ember-cli/ember-cli/issues/3718
+    if (typeof app.import !== 'function' && app.app) {
+      app = app.app;
+    }
+
+    this.app = app;
+
     if (!this.shouldIncludeFiles()) {
       return;
     }
