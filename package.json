@@ -60,6 +60,7 @@
     "user story"
   ],
   "dependencies": {
+    "ember-cli-babel": "^5.1.6"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config"
