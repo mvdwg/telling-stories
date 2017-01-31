@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import POINTER_DATA from './pointer-data';
 
 const { $, RSVP } = Ember;
 
@@ -42,7 +43,7 @@ function pointer(container) {
   let pointer = $('#tsPointer', container);
 
   if (!pointer.length) {
-    let $img = $('<img>', { src: '/telling-stories/pointer.png' });
+    let $img = $('<img>', { src: POINTER_DATA });
     let $click = $('<span>', { id: 'tsPointerClickEffect'});
     let $cursor = $('<span>', { id: 'tsPointer' });
 
