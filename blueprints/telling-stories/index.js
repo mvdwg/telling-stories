@@ -17,7 +17,7 @@ module.exports = {
 
     return this.addAddonsToProject({
       packages: [
-        { name: 'ember-cli-page-object', version: '^1.6.0' }
+        { name: 'ember-cli-page-object', version: '^1.8.0' }
       ]
     });
   }

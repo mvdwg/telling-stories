@@ -1,7 +1,7 @@
 import { buildSelector } from 'ember-cli-page-object';
-import Animation from './animation';
+import { findClosestValue } from 'ember-cli-page-object/-private/helpers';
 
-const defaultContainer = '#ember-testing';
+import Animation from './animation';
 
 export default function TellingStoriesContext(pageObjectNode) {
   this.pageObjectNode = pageObjectNode;
@@ -31,20 +31,20 @@ TellingStoriesContext.prototype = {
   click(selector, container) {
     /* global wait */
     wait()
-      .then(Animation.movePointerTo(selector, container || defaultContainer))
-      .then(Animation.clickEffectBefore());
+      .then(Animation.movePointerTo(selector, container))
+      .then(Animation.clickEffectBefore(container));
 
     /* global click */
     click(selector, container);
 
-    wait().then(Animation.clickEffectAfter());
+    wait().then(Animation.clickEffectAfter(container));
   },
 
   fillIn(selector, container, text) {
     /* global wait */
     wait()
-      .then(Animation.movePointerTo(selector, container || defaultContainer))
-      .then(Animation.clickEffectBefore());
+      .then(Animation.movePointerTo(selector, container))
+      .then(Animation.clickEffectBefore(container));
 
     /* global fillIn */
     if (container) {
@@ -64,7 +64,7 @@ TellingStoriesContext.prototype = {
 
   assertElementExists(selector, options) {
     /* global find */
-    let result = find(selector, options.testContainer);
+    let result = find(selector, options.testContainer || findClosestValue(this.pageObjectNode, 'testContainer'));
 
     if (result.length === 0) {
       throw new Error("Ooops!");
@@ -89,7 +89,7 @@ TellingStoriesContext.prototype = {
     selector = buildSelector(this.pageObjectNode, selector, options);
 
     /* global find */
-    result = find(selector, options.testContainer);
+    result = find(selector, options.testContainer || findClosestValue(this.pageObjectNode, 'testContainer'));
 
     if (result.length === 0) {
       throw new Error("Ooops!");
