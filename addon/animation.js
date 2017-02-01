@@ -100,6 +100,7 @@ function scrollToElement($element) {
 }
 
 function finish() {
+  $('body').fadeOut(3000).fadeIn(0);
   return sleep(3000);
 }
 
