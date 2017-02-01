@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import POINTER_DATA from './pointer-data';
 
 const { $, RSVP } = Ember;
 
@@ -15,13 +16,13 @@ function sleep(milliseconds) {
   });
 }
 
-function clickEffectBefore() {
-  pointer('#ember-testing').addClass('tsClick');
+function clickEffectBefore(container) {
+  pointer(container).addClass('tsClick');
   return sleep(200);
 }
 
-function clickEffectAfter() {
-  return sleep(500).then(() => pointer('#ember-testing').removeClass('tsClick'));
+function clickEffectAfter(container) {
+  return sleep(500).then(() => pointer(container).removeClass('tsClick'));
 }
 
 function distance(a,b) {
@@ -42,7 +43,7 @@ function pointer(container) {
   let pointer = $('#tsPointer', container);
 
   if (!pointer.length) {
-    let $img = $('<img>', { src: '/telling-stories/pointer.png' });
+    let $img = $('<img>', { src: POINTER_DATA });
     let $click = $('<span>', { id: 'tsPointerClickEffect'});
     let $cursor = $('<span>', { id: 'tsPointer' });
 
@@ -66,10 +67,10 @@ function movePointerTo(target, container) {
     offset.left = offset.left + width;
     offset.top = offset.top + height;
 
-    let ms = delay(pointer('#ember-testing').offset(), offset, SPEED);
+    let ms = delay(pointer(container).offset(), offset, SPEED);
 
-    pointer('#ember-testing').offset(offset);
-    pointer('#ember-testing').css('transition', `top ${ms}ms cubic-bezier(0.4, 0, 1, 1), left ${ms}ms linear`);
+    pointer(container).offset(offset);
+    pointer(container).css('transition', `top ${ms}ms cubic-bezier(0.4, 0, 1, 1), left ${ms}ms linear`);
 
     if(!isElementInView($target)) {
       scrollToElement($target);
