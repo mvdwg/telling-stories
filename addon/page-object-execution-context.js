@@ -7,7 +7,7 @@ export default function TellingStoriesContext(pageObjectNode) {
   this.pageObjectNode = pageObjectNode;
 }
 
-let previousElement = null;
+// let previousElement = null;
 
 TellingStoriesContext.prototype = {
   run(cb) {
@@ -26,9 +26,12 @@ TellingStoriesContext.prototype = {
   visit(path) {
     /* global visit */
     visit(path);
+    wait().then(Animation.sleep(3000));
   },
 
   click(selector, container) {
+    container = container || '#ember-testing';
+
     /* global wait */
     wait()
       .then(Animation.movePointerTo(selector, container))
@@ -41,6 +44,8 @@ TellingStoriesContext.prototype = {
   },
 
   fillIn(selector, container, text) {
+    container = container || '#ember-testing';
+
     /* global wait */
     wait()
       .then(Animation.movePointerTo(selector, container))
@@ -55,6 +60,8 @@ TellingStoriesContext.prototype = {
   },
 
   triggerEvent(selector, container, eventName, eventOptions) {
+    container = container || '#ember-testing';
+
     /* global wait */
     wait().then(Animation.sleep(500));
 
@@ -76,7 +83,7 @@ TellingStoriesContext.prototype = {
     selector = buildSelector(this.pageObjectNode, selector, options);
 
     /* global find */
-    result = find(selector, options.testContainer);
+    result = find(selector, options.testContainer || findClosestValue(this.pageObjectNode, 'testContainer'));
 
     this.attention(result);
 
@@ -100,15 +107,15 @@ TellingStoriesContext.prototype = {
     return result;
   },
 
-  attention(element) {
-    wait().then(() => {
-      if (previousElement) {
-        previousElement.removeClass('tsAttention');
-      }
-
-      previousElement = element.addClass('tsAttention');
-
-      return Animation.sleep(1000)();
-    });
+  attention(/* element */) {
+    // wait().then(() => {
+    //   if (previousElement) {
+    //     previousElement.removeClass('tsAttention');
+    //   }
+    //
+    //   previousElement = element.addClass('tsAttention');
+    //
+    //   return Animation.sleep(1000)();
+    // });
   }
 };

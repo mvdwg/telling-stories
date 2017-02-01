@@ -54,3 +54,15 @@
   75% { opacity: .5; }
   100% { opacity: 1; }
 }
+
+.tsOSD {
+  position: fixed;
+  top: 150px;
+  left: 150px;
+  font-size: 40px;
+  z-index: 99999;
+  padding: 20px 40px;
+  background: rgba(255,255,255,0.8);
+  border-radius: 5px;
+  box-shadow: 0 0 5px black;
+}

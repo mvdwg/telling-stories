@@ -99,9 +99,28 @@ function scrollToElement($element) {
   }, SCROLL_SPEED);
 }
 
+function finish() {
+  return sleep(3000);
+}
+
+function osd(text, timeout) {
+  timeout = timeout || 3000;
+
+  $('<div>', {
+    text,
+    class: 'tsOSD'
+  })
+  .appendTo($('body'))
+  .animate({
+    opacity: 1
+  }, timeout, function() { $(this).remove(); });
+}
+
 export default {
   pointer,
   movePointerTo,
+  finish,
+  osd,
   clickEffectBefore() {
     return () => clickEffectBefore();
   },
