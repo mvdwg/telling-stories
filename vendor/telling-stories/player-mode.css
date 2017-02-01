@@ -1,3 +1,24 @@
+/* Reset */
+.telling-stories #qunit {
+  display: none;
+}
+
+.telling-stories #ember-testing {
+  zoom: 1;
+  transform: none;
+  width: 100%;
+}
+
+.telling-stories #ember-testing-container {
+  width: auto;
+  height: 100%;
+  border-style: none;
+  margin: 0;
+  overflow: visible;
+  top: 0;
+  right: 0;
+}
+
 /* Player */
 #tsPointer {
   position: absolute;
