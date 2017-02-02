@@ -80,26 +80,43 @@
   position: fixed;
   top: 150px;
   left: 150px;
+  right: 150px;
   font-size: 40px;
   z-index: 99999;
   padding: 20px 40px;
   background: rgba(255,255,255,0.8);
   border-radius: 5px;
   box-shadow: 0 0 5px black;
+  text-align: center;
+  filter: none;
+}
+
+.ts-blur {
+  filter: blur(3px);
 }
 
 .ts-log-container {
   position: fixed;
-  bottom: 0;
-  right: 0;
-  width: 300px;
+  bottom: 7px;
+  right: 7px;
+  width: 350px;
 }
 
 .ts-log-message {
   display: block;
-  background: white;
-  opacity: .7;
-  border: 1px solid black;
-  padding: 10px 7px;
+  background-image: radial-gradient(farthest-corner at 0px 0px , rgba(255,255,255, 1) 0%, rgba(205,255,205, 1) 100%);
+  opacity: 1;
+  border: 1px solid rgba(0,0,0,.5);
+  padding: 20px 15px;
   box-sizing: border-box;
+  font-size: 120%;
+  margin: 6px
+}
+
+.ts-log-message.ts-the-end {
+  background-image: none;
+  background-color: rgba(200, 200, 255, 1);
+  font-weight: bold;
+  font-size: 130%;
+  text-align: center;
 }

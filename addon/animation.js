@@ -6,7 +6,7 @@ const { $, RSVP } = Ember;
 // 100px in 300ms
 const SPEED = 100 / 300;
 
-const SCROLL_SPEED = 2000;
+const SCROLL_SPEED = 500;
 
 function sleep(milliseconds) {
   return new RSVP.Promise(function(resolve) {
@@ -95,28 +95,39 @@ function isElementInView($element, fullyInView) {
 
 function scrollToElement($element) {
   $('html, body').animate({
-    scrollTop: $element.offset().top
+    scrollTop: $element.offset().top + $element.height() - $(window).height()
   }, SCROLL_SPEED);
 }
 
 function finish() {
-  $('body').fadeOut(3000).fadeIn(0, function() {
+  $('body')
+    .delay(4000)
+    .fadeOut(3000);
+
+  return sleep(7000).then(function() {
     logContainer().html('');
+    $('body').show();
   });
-  return sleep(2999);
 }
 
 function osd(text, timeout) {
   timeout = timeout || 3000;
+  $('#ember-testing-container').addClass('ts-blur');
 
-  $('<div>', {
-    text,
-    class: 'tsOSD'
-  })
-  .appendTo($('body'))
-  .animate({
-    opacity: 1
-  }, timeout, function() { $(this).remove(); });
+  return new RSVP.Promise(function(resolve) {
+    $('<div>', {
+      text,
+      class: 'tsOSD'
+    })
+    .appendTo($('body'))
+    .animate({
+      opacity: 1
+    }, timeout, function() {
+      $('#ember-testing-container').removeClass('ts-blur');
+      resolve();
+      $(this).remove();
+    });
+  });
 }
 
 function logContainer() {
@@ -132,20 +143,23 @@ function logContainer() {
   return container;
 }
 
-function log(text) {
-  let timeout = 1000;
+function log(text, className) {
+  let timeout = 2000;
 
-  $('<div>', {
-    text,
-    class: 'ts-log-message'
-  })
-  .hide()
-  .appendTo(logContainer())
-  .fadeIn(300)
-  .animate({
-    opacity: 1
-  }, timeout, function() {
-    $(this).fadeOut(400, function() {
+  className = className || '';
+
+  return new RSVP.Promise(function(resolve) {
+    $('<div>', {
+      text,
+      class: 'ts-log-message ' + className
+    })
+    .hide()
+    .appendTo(logContainer())
+    .slideDown(500)
+    .delay(timeout, function() {
+      resolve();
+    })
+    .fadeOut(400, function() {
       $(this).remove();
     });
   });
