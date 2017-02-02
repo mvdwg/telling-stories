@@ -87,3 +87,19 @@
   border-radius: 5px;
   box-shadow: 0 0 5px black;
 }
+
+.ts-log-container {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 300px;
+}
+
+.ts-log-message {
+  display: block;
+  background: white;
+  opacity: .7;
+  border: 1px solid black;
+  padding: 10px 7px;
+  box-sizing: border-box;
+}

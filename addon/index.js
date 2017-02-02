@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import Animation from './animation';
 
-const { RSVP } = Ember;
+const { RSVP, $ } = Ember;
 
 export function shutdown(returnValue) {
   let promise = RSVP.resolve(returnValue);
@@ -38,4 +38,10 @@ export function testStart(context) {
 
 export function testEnd() {
   console.log(`Test ends`);
+}
+
+export function assertionEnded({message}) {
+  if ($.trim(message)) {
+    Animation.log($.trim(message));
+  }
 }

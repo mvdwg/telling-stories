@@ -100,8 +100,10 @@ function scrollToElement($element) {
 }
 
 function finish() {
-  $('body').fadeOut(3000).fadeIn(0);
-  return sleep(3000);
+  $('body').fadeOut(3000).fadeIn(0, function() {
+    logContainer().html('');
+  });
+  return sleep(2999);
 }
 
 function osd(text, timeout) {
@@ -117,11 +119,44 @@ function osd(text, timeout) {
   }, timeout, function() { $(this).remove(); });
 }
 
+function logContainer() {
+  let container = $('.ts-log-container');
+
+  if (!container.length) {
+    container = $('<div>', {
+      class: 'ts-log-container'
+    })
+    .appendTo($('body'));
+  }
+
+  return container;
+}
+
+function log(text) {
+  let timeout = 1000;
+
+  $('<div>', {
+    text,
+    class: 'ts-log-message'
+  })
+  .hide()
+  .appendTo(logContainer())
+  .fadeIn(300)
+  .animate({
+    opacity: 1
+  }, timeout, function() {
+    $(this).fadeOut(400, function() {
+      $(this).remove();
+    });
+  });
+}
+
 export default {
   pointer,
   movePointerTo,
   finish,
   osd,
+  log,
   clickEffectBefore() {
     return () => clickEffectBefore();
   },

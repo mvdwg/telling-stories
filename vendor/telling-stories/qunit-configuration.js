@@ -19,6 +19,7 @@ jQuery(function() {
       qunit.moduleDone(callbacks.moduleEnd);
       qunit.testStart(callbacks.testStart);
       qunit.testDone(callbacks.testEnd);
+      qunit.log(callbacks.assertionEnded);
     }
   }
 });
