@@ -7,6 +7,7 @@ import ExecutionContext from './page-object-execution-context';
 import { player, create as createPlayer } from './player';
 
 const { RSVP, $ } = Ember;
+var container;
 
 export function shutdown(returnValue) {
   let promise = RSVP.resolve(returnValue);
@@ -28,6 +29,13 @@ export function shutdown(returnValue) {
 
 export function suiteStart(totalTests) {
   console.log(`Test suite starts. Total tests: ${totalTests}`);
+
+  if ($('#test-root').length) {
+    // ember twiddle
+    container = '#test-root';
+  } else {
+    container = '#ember-testing';
+  }
 }
 
 export function suiteEnd() {
@@ -48,8 +56,8 @@ export function testStart(context) {
   pendingTasks.clear();
 
   if (/^Acceptance/.test(context.module)) {
-    createPlayer();
-    player().beforeStart(context.name);
+    createPlayer(container);
+    player().beforeVisit(context.name);
   }
 }
 
@@ -65,7 +73,3 @@ export function assertionEnded({message}) {
     });
   }
 }
-
-RSVP.on('error', function(reason) {
-  console.error(reason);
-});

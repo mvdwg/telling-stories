@@ -1,4 +1,7 @@
+import Ember from 'ember';
 import Animation from './animation';
+
+const { RSVP } = Ember;
 
 function task(fn, args) {
   return function() {
@@ -42,18 +45,45 @@ class BasePlayer {
 }
 
 class Player extends BasePlayer {
-  constructor(waiter) {
-    super(waiter);
+  constructor(container) {
+    super();
+    this.container = container;
+  }
+
+  // Generic action
+  then(fn) {
+    this.addTask(fn);
+
+    return this;
   }
 
   // Player actions
-  beforeStart(testName) {
+  beforeVisit(testName) {
     this.addTask(Animation.osd, testName);
+
+    return this;
   }
 
-  start() {
+  afterVisit() {
     this.addTask(sleep, 3000);
     this.flushTasks();
+
+    return this;
+  }
+
+  beforeClick($element) {
+    this.addTask(Animation.movePointer, $element, this.container);
+    this.addTask(Animation.beforeClick, this.container);
+    this.flushTasks();
+
+    return this;
+  }
+
+  afterClick() {
+    this.addTask(Animation.afterClick, this.container);
+    this.flushTasks();
+
+    return this;
   }
 }
 
@@ -61,9 +91,13 @@ class Player extends BasePlayer {
 var current = null;
 
 export function player() {
+  if (!current) {
+    throw new Error('You need to start a player first');
+  }
+
   return current;
 }
 
-export function create() {
-  current = new Player();
+export function create(container) {
+  current = new Player(container);
 }

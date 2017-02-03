@@ -179,5 +179,35 @@ export default {
   },
   sleep(milliseconds) {
     return () => sleep(milliseconds);
-  }
+  },
+
+  // -- new api
+  movePointer,
+  beforeClick,
+  afterClick: clickEffectAfter
 };
+
+function beforeClick(container) {
+  pointer(container).addClass('tsClick');
+  return sleep(200);
+}
+
+function movePointer($target, container) {
+  let offset = $target.offset();
+  let width = $target.width() / 2;
+  let height = $target.height() / 2 + 3;
+
+  offset.left = offset.left + width;
+  offset.top = offset.top + height;
+
+  let ms = delay(pointer(container).offset(), offset, SPEED);
+
+  pointer(container).offset(offset);
+  pointer(container).css('transition', `top ${ms}ms cubic-bezier(0.4, 0, 1, 1), left ${ms}ms linear`);
+
+  if(!isElementInView($target)) {
+    scrollToElement($target);
+  }
+
+  return sleep(ms + 100); // wait the delay plus a delta
+}

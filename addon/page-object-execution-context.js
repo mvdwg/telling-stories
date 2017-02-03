@@ -4,6 +4,8 @@ import { findClosestValue } from 'ember-cli-page-object/-private/helpers';
 import Animation from './animation';
 import pendingTasks from './pending-tasks';
 
+/* global click */
+
 // -- new api
 import { player } from './player';
 
@@ -45,22 +47,18 @@ TellingStoriesContext.prototype = {
   visit(path) {
     /* global visit */
     visit(path);
-    player().start();
+    player().afterVisit();
   },
 
   click(selector, container) {
-    this.flushTasks();
-    container = container || '#ember-testing';
+    var element = $(selector, container || '#ember-testing');
 
-    /* global wait */
-    wait()
-      .then(Animation.movePointerTo(selector, container))
-      .then(Animation.clickEffectBefore(container));
+    this.flushTasks(); // temp
 
-    /* global click */
-    click(selector, container);
-
-    wait().then(Animation.clickEffectAfter(container));
+    player()
+      .beforeClick(element)
+      .then(() => click(selector, container))
+      .afterClick();
   },
 
   fillIn(selector, container, text) {
