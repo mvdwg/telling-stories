@@ -3,6 +3,9 @@ import Animation from './animation';
 import pendingTasks from './pending-tasks';
 import ExecutionContext from './page-object-execution-context';
 
+// -- new api
+import { player, create as createPlayer } from './player';
+
 const { RSVP, $ } = Ember;
 
 export function shutdown(returnValue) {
@@ -45,9 +48,8 @@ export function testStart(context) {
   pendingTasks.clear();
 
   if (/^Acceptance/.test(context.module)) {
-    pendingTasks.push(function() {
-      return Animation.osd(context.name);
-    });
+    createPlayer();
+    player().beforeStart(context.name);
   }
 }
 

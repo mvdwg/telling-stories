@@ -4,6 +4,9 @@ import { findClosestValue } from 'ember-cli-page-object/-private/helpers';
 import Animation from './animation';
 import pendingTasks from './pending-tasks';
 
+// -- new api
+import { player } from './player';
+
 const { RSVP } = Ember;
 
 export default function TellingStoriesContext(pageObjectNode) {
@@ -42,8 +45,7 @@ TellingStoriesContext.prototype = {
   visit(path) {
     /* global visit */
     visit(path);
-    this.flushTasks();
-    pendingTasks.push(Animation.sleep(3000));
+    player().start();
   },
 
   click(selector, container) {
