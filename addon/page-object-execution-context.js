@@ -5,6 +5,11 @@ import Animation from './animation';
 import pendingTasks from './pending-tasks';
 
 /* global click */
+/* global wait */
+/* global fillIn */
+/* global visit */
+/* global triggerEvent */
+/* global find */
 
 // -- new api
 import { player } from './player';
@@ -51,46 +56,40 @@ TellingStoriesContext.prototype = {
   },
 
   click(selector, container) {
-    var element = $(selector, container || '#ember-testing');
+    container = container || '#ember-testing';
 
     this.flushTasks(); // temp
 
     player()
-      .beforeClick(element)
+      .beforeClick({selector, container})
       .then(() => click(selector, container))
       .afterClick();
   },
 
   fillIn(selector, container, text) {
-    this.flushTasks();
     container = container || '#ember-testing';
 
-    /* global wait */
-    wait()
-      .then(Animation.movePointerTo(selector, container))
-      .then(Animation.clickEffectBefore(container));
+    this.flushTasks();
 
-    /* global fillIn */
-    if (container) {
-      fillIn(selector, container, text);
-    } else {
-      fillIn(selector, text);
-    }
+    player()
+      .beforeFillIn({selector, container})
+      .then(() => {
+        fillIn(selector, container, text);
+      })
+      .afterFillIn();
   },
 
   triggerEvent(selector, container, eventName, eventOptions) {
-    this.flushTasks();
     container = container || '#ember-testing';
 
-    /* global wait */
-    wait().then(Animation.sleep(500));
+    this.flushTasks();
 
-    /* global triggerEvent */
-    triggerEvent(selector, container, eventName, eventOptions);
+    player()
+      .beforeTriggerEvent()
+      .then(() => triggerEvent(selector, container, eventName, eventOptions));
   },
 
   assertElementExists(selector, options) {
-    /* global find */
     let result = find(selector, options.testContainer || findClosestValue(this.pageObjectNode, 'testContainer'));
 
     if (result.length === 0) {
@@ -102,7 +101,6 @@ TellingStoriesContext.prototype = {
     let result;
     selector = buildSelector(this.pageObjectNode, selector, options);
 
-    /* global find */
     result = find(selector, options.testContainer || findClosestValue(this.pageObjectNode, 'testContainer'));
 
     this.attention(result);
@@ -115,7 +113,6 @@ TellingStoriesContext.prototype = {
 
     selector = buildSelector(this.pageObjectNode, selector, options);
 
-    /* global find */
     result = find(selector, options.testContainer || findClosestValue(this.pageObjectNode, 'testContainer'));
 
     if (result.length === 0) {

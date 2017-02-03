@@ -13,15 +13,11 @@ export function shutdown(returnValue) {
   let promise = RSVP.resolve(returnValue);
 
   if (window.QUnit && window.QUnit.urlParams.tellingStories) {
-    pendingTasks.push(function() {
-      return Animation.log('The End', 'ts-the-end');
+    return new RSVP.Promise(function(resolve) {
+      player()
+        .beforeEnd()
+        .then(() => resolve(promise));
     });
-    pendingTasks.push(Animation.sleep(2000));
-    pendingTasks.push(function() {
-      return Animation.finish();
-    });
-
-    return ExecutionContext.prototype.flushTasks().then(() => promise);
   }
 
   return promise;
@@ -67,9 +63,9 @@ export function testEnd() {
 }
 
 export function assertionEnded({message}) {
-  if ($.trim(message)) {
-    pendingTasks.push(function() {
-      return Animation.log($.trim(message));
-    });
+  message = $.trim(message);
+
+  if (message) {
+    player().afterAssertion(message);
   }
 }

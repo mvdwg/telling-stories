@@ -192,7 +192,8 @@ function beforeClick(container) {
   return sleep(200);
 }
 
-function movePointer($target, container) {
+function movePointer(target, container) {
+  let $target = $(target.selector, target.container);
   let offset = $target.offset();
   let width = $target.width() / 2;
   let height = $target.height() / 2 + 3;

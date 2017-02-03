@@ -53,6 +53,7 @@ class Player extends BasePlayer {
   // Generic action
   then(fn) {
     this.addTask(fn);
+    this.flushTasks();
 
     return this;
   }
@@ -71,8 +72,8 @@ class Player extends BasePlayer {
     return this;
   }
 
-  beforeClick($element) {
-    this.addTask(Animation.movePointer, $element, this.container);
+  beforeClick(element) {
+    this.addTask(Animation.movePointer, element, this.container);
     this.addTask(Animation.beforeClick, this.container);
     this.flushTasks();
 
@@ -81,6 +82,37 @@ class Player extends BasePlayer {
 
   afterClick() {
     this.addTask(Animation.afterClick, this.container);
+    this.flushTasks();
+
+    return this;
+  }
+
+  beforeFillIn(element) {
+    return this.beforeClick(element);
+  }
+
+  afterFillIn() {
+    return this;
+  }
+
+  beforeTriggerEvent() {
+    this.addTask(sleep, 500);
+    this.flushTasks();
+
+    return this;
+  }
+
+  afterAssertion(message) {
+    this.addTask(Animation.log, message);
+    this.flushTasks();
+
+    return this;
+  }
+
+  beforeEnd() {
+    this.addTask(Animation.log, 'The End', 'ts-the-end');
+    this.addTask(sleep, 2000);
+    this.addTask(Animation.finish);
     this.flushTasks();
 
     return this;
