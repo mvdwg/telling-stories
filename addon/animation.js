@@ -3,9 +3,7 @@ import POINTER_DATA from './pointer-data';
 
 const { $, RSVP } = Ember;
 
-// 100px in 300ms
-const SPEED = 100 / 300;
-
+const SPEED = 100 / 300; // 100px in 300ms
 const SCROLL_SPEED = 500;
 
 function sleep(milliseconds) {
@@ -16,12 +14,12 @@ function sleep(milliseconds) {
   });
 }
 
-function clickEffectBefore(container) {
+function beforeClick(container) {
   pointer(container).addClass('tsClick');
   return sleep(200);
 }
 
-function clickEffectAfter(container) {
+function afterClick(container) {
   return sleep(500).then(() => pointer(container).removeClass('tsClick'));
 }
 
@@ -57,27 +55,25 @@ function pointer(container) {
   return pointer;
 }
 
-function movePointerTo(target, container) {
-  return function() {
-    let $target = $(target, container);
-    let offset = $target.offset();
-    let width = $target.width() / 2;
-    let height = $target.height() / 2 + 3;
+function movePointer(target, container) {
+  let $target = $(target.selector, target.container);
+  let offset = $target.offset();
+  let width = $target.width() / 2;
+  let height = $target.height() / 2 + 3;
 
-    offset.left = offset.left + width;
-    offset.top = offset.top + height;
+  offset.left = offset.left + width;
+  offset.top = offset.top + height;
 
-    let ms = delay(pointer(container).offset(), offset, SPEED);
+  let ms = delay(pointer(container).offset(), offset, SPEED);
 
-    pointer(container).offset(offset);
-    pointer(container).css('transition', `top ${ms}ms cubic-bezier(0.4, 0, 1, 1), left ${ms}ms linear`);
+  pointer(container).offset(offset);
+  pointer(container).css('transition', `top ${ms}ms cubic-bezier(0.4, 0, 1, 1), left ${ms}ms linear`);
 
-    if(!isElementInView($target)) {
-      scrollToElement($target);
-    }
+  if(!isElementInView($target)) {
+    scrollToElement($target);
+  }
 
-    return sleep(ms + 100); // wait the delay plus a delta
-  };
+  return sleep(ms + 100); // wait the delay plus a delta
 }
 
 function isElementInView($element, fullyInView) {
@@ -167,48 +163,10 @@ function log(text, className) {
 
 export default {
   pointer,
-  movePointerTo,
   finish,
   osd,
   log,
-  clickEffectBefore() {
-    return () => clickEffectBefore();
-  },
-  clickEffectAfter() {
-    return () => clickEffectAfter();
-  },
-  sleep(milliseconds) {
-    return () => sleep(milliseconds);
-  },
-
-  // -- new api
   movePointer,
   beforeClick,
-  afterClick: clickEffectAfter
+  afterClick
 };
-
-function beforeClick(container) {
-  pointer(container).addClass('tsClick');
-  return sleep(200);
-}
-
-function movePointer(target, container) {
-  let $target = $(target.selector, target.container);
-  let offset = $target.offset();
-  let width = $target.width() / 2;
-  let height = $target.height() / 2 + 3;
-
-  offset.left = offset.left + width;
-  offset.top = offset.top + height;
-
-  let ms = delay(pointer(container).offset(), offset, SPEED);
-
-  pointer(container).offset(offset);
-  pointer(container).css('transition', `top ${ms}ms cubic-bezier(0.4, 0, 1, 1), left ${ms}ms linear`);
-
-  if(!isElementInView($target)) {
-    scrollToElement($target);
-  }
-
-  return sleep(ms + 100); // wait the delay plus a delta
-}
