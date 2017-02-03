@@ -49,7 +49,7 @@ export function testEnd() {
 export function assertionEnded({message}) {
   message = $.trim(message);
 
-  if (message) {
+  if (message && player()) {
     player().afterAssertion(message);
   }
 }

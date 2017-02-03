@@ -1,8 +1,7 @@
 import Ember from 'ember';
 import { buildSelector } from 'ember-cli-page-object';
 import { findClosestValue } from 'ember-cli-page-object/-private/helpers';
-import Animation from './animation';
-import pendingTasks from './pending-tasks';
+import { player } from './player';
 
 /* global click */
 /* global wait */
@@ -11,37 +10,18 @@ import pendingTasks from './pending-tasks';
 /* global triggerEvent */
 /* global find */
 
-// -- new api
-import { player } from './player';
-
 const { RSVP } = Ember;
 
 export default function TellingStoriesContext(pageObjectNode) {
   this.pageObjectNode = pageObjectNode;
 }
 
-// let previousElement = null;
-
 TellingStoriesContext.prototype = {
-  flushTasks() {
-    var tasks = pendingTasks.flush();
-    if (tasks.length) {
-      tasks.forEach(function(task) {
-        wait().then(task);
-      });
-
-      return wait();
-    }
-
-    return RSVP.resolve();
-  },
-
   run(cb) {
     return cb(this);
   },
 
   runAsync(cb) {
-    /* global wait */
     wait().then(() => {
       cb(this);
     });
@@ -50,15 +30,12 @@ TellingStoriesContext.prototype = {
   },
 
   visit(path) {
-    /* global visit */
     visit(path);
     player().afterVisit();
   },
 
   click(selector, container) {
     container = container || '#ember-testing';
-
-    this.flushTasks(); // temp
 
     player()
       .beforeClick({selector, container})
@@ -68,8 +45,6 @@ TellingStoriesContext.prototype = {
 
   fillIn(selector, container, text) {
     container = container || '#ember-testing';
-
-    this.flushTasks();
 
     player()
       .beforeFillIn({selector, container})
@@ -81,8 +56,6 @@ TellingStoriesContext.prototype = {
 
   triggerEvent(selector, container, eventName, eventOptions) {
     container = container || '#ember-testing';
-
-    this.flushTasks();
 
     player()
       .beforeTriggerEvent()

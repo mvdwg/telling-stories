@@ -124,7 +124,7 @@ var current = null;
 
 export function player() {
   if (!current) {
-    throw new Error('You need to start a player first');
+    console.warn('You need to start a player first');
   }
 
   return current;
