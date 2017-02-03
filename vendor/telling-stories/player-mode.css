@@ -17,6 +17,7 @@
   overflow: visible;
   top: 0;
   right: 0;
+  left: 0;
 }
 
 /* Player */
@@ -100,6 +101,7 @@
   bottom: 7px;
   right: 7px;
   width: 350px;
+  z-index: 99999;
 }
 
 .ts-log-message {
@@ -110,7 +112,7 @@
   padding: 20px 15px;
   box-sizing: border-box;
   font-size: 120%;
-  margin: 6px
+  margin: 6px;
 }
 
 .ts-log-message.ts-the-end {
