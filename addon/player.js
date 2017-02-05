@@ -1,3 +1,4 @@
+/* global wait */
 import Ember from 'ember';
 import Animation from './animation';
 
@@ -45,9 +46,14 @@ class BasePlayer {
 }
 
 class Player extends BasePlayer {
-  constructor(container) {
+  constructor(container, moduleName, testName) {
     super();
+
     this.container = container;
+    this.moduleName = moduleName;
+    this.testName = testName;
+
+    this.addTask(Animation.osd, this.moduleName, testName);
   }
 
   // Generic action
@@ -59,9 +65,7 @@ class Player extends BasePlayer {
   }
 
   // Player actions
-  beforeVisit(testName) {
-    this.addTask(Animation.osd, testName);
-
+  beforeVisit() {
     return this;
   }
 
@@ -130,6 +134,6 @@ export function player() {
   return current;
 }
 
-export function create(container) {
-  current = new Player(container);
+export function create(container, context) {
+  current = new Player(container, context.module, context.name);
 }

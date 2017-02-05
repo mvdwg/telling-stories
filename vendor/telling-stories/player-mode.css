@@ -19,6 +19,7 @@
   top: 0;
   right: 0;
   left: 0;
+  filter: blur(3px) opacity(50%);
 }
 
 /* Player */
@@ -79,22 +80,45 @@
 }
 
 .tsOSD {
-  position: fixed;
-  top: 150px;
-  left: 150px;
-  right: 150px;
+  position: absolute;
+  max-width: 90%;
+  top: 50%;
+  left: 50%;
   font-size: 40px;
   z-index: 99999;
   padding: 20px 40px;
-  background: rgba(255,255,255,0.8);
+  background: rgba(255,255,255,0.7);
   border-radius: 5px;
-  box-shadow: 0 0 5px black;
+  box-shadow: 0 0 5px rgba(0,0,0,.4);
   text-align: center;
-  filter: none;
+  animation: slideInUp 1s;
+  animation-fill-mode: forwards;
 }
 
-.ts-blur {
-  filter: blur(3px);
+.tsOSD.out {
+  animation: slideOutUp .8s;
+  animation-fill-mode: forwards;
+}
+
+.tsOSD .test-name {
+  display: block;
+  font-size: 30px;
+  color: #222;
+  text-shadow: 1px 1px 1px rgba(255,255,255,1);
+}
+
+.tsOSD .module-name {
+  display: block;
+  margin-top: 15px;
+  font-size: 18px;
+  color: #3f75bb;
+  font-family: monospace;
+  text-shadow: 1px 1px 1px rgba(255,255,255,.7);
+}
+
+.no-filter {
+  filter: none !important;
+  transition: filter 3s;
 }
 
 .ts-log-container {
@@ -122,4 +146,27 @@
   font-weight: bold;
   font-size: 130%;
   text-align: center;
+}
+
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translate3d(-50%, 25%, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(-50%, -50%, 0);
+  }
+}
+
+@keyframes slideOutUp {
+  from {
+    opacity: 1;
+    transform: translate3d(-50%, -50%, 0);
+  }
+  to {
+    opacity: 0;
+    transform: translate3d(-50%, -100%, 0);
+  }
 }

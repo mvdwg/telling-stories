@@ -38,7 +38,7 @@ export function moduleEnd() {
 
 export function testStart(context) {
   if (/^Acceptance/.test(context.module)) {
-    createPlayer(container);
+    createPlayer(container, context);
     player().beforeVisit(context.name);
   }
 }

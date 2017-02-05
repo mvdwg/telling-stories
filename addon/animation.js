@@ -113,22 +113,23 @@ function finish() {
   });
 }
 
-function osd(text, timeout) {
-  timeout = timeout || 3000;
-  $('#ember-testing-container').addClass('ts-blur');
+function osd(moduleName, testName, timeout) {
+  timeout = timeout || 5000;
+  testName = testName.capitalize();
+  moduleName = 'From feature ' + moduleName.replace('Acceptance | ','').capitalize();
 
   return new RSVP.Promise(function(resolve) {
-    $('<div>', {
-      text,
-      class: 'tsOSD'
-    })
-    .appendTo($('body'))
-    .animate({
-      opacity: 1
-    }, timeout, function() {
-      $('#ember-testing-container').removeClass('ts-blur');
-      resolve();
-      $(this).remove();
+    $('<div>', { class: 'tsOSD' })
+    .html(`<span class="test-name">${testName}</span><span class="module-name">${moduleName}</span>`)
+    .appendTo($('body'));
+
+    sleep(timeout).then(() => {
+      $('.tsOSD').addClass('out');
+      sleep(800).then(() => {
+        $('#ember-testing-container').addClass('no-filter');
+        resolve();
+        $('.tsOSD').remove();
+      });
     });
   });
 }

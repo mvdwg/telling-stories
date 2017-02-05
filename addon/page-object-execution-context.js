@@ -1,4 +1,3 @@
-import Ember from 'ember';
 import { buildSelector } from 'ember-cli-page-object';
 import { findClosestValue } from 'ember-cli-page-object/-private/helpers';
 import { player } from './player';
@@ -9,8 +8,6 @@ import { player } from './player';
 /* global visit */
 /* global triggerEvent */
 /* global find */
-
-const { RSVP } = Ember;
 
 export default function TellingStoriesContext(pageObjectNode) {
   this.pageObjectNode = pageObjectNode;
