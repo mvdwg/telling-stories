@@ -58,41 +58,48 @@ function pointer(container) {
 function movePointer(target, container) {
   let $target = $(target.selector, target.container);
   let offset = $target.offset();
-  let width = $target.width() / 2;
-  let height = $target.height() / 2 + 3;
+  let width = $target.outerWidth(true) / 2; // Includes border, paddings and margins
+  let height = $target.outerHeight(true) / 2; // Includes border, paddings and margins
 
   offset.left = offset.left + width;
   offset.top = offset.top + height;
 
   let ms = delay(pointer(container).offset(), offset, SPEED);
 
-  pointer(container).offset(offset);
-  pointer(container).css('transition', `top ${ms}ms cubic-bezier(0.4, 0, 1, 1), left ${ms}ms linear`);
+  $(pointer(container)).animate({
+    top: offset.top,
+    left: offset.left
+  }, ms);
 
   if(!isElementInView($target)) {
-    scrollToElement($target);
+    scrollToElement($target, 150, ms);
   }
 
   return sleep(ms + 100); // wait the delay plus a delta
 }
 
 function isElementInView($element, fullyInView) {
-  let pageTop = $(window).scrollTop();
-  let pageBottom = pageTop + $(window).height();
+  let displayHeight = $(window).height();
   let elementTop = $element.offset().top;
-  let elementBottom = elementTop + $element.height();
+  let elementBottom = elementTop + $element.outerHeight(); // Includes borders and padding but excludes margins.
 
-  if (fullyInView === false) {
-      return ((pageTop < elementTop) && (pageBottom > elementBottom));
+  if (fullyInView) {
+    return ((elementBottom <= displayHeight) && (elementTop >= 0));
   } else {
-      return ((elementBottom <= pageBottom) && (elementTop >= pageTop));
+    return ((0 < elementTop) && (displayHeight > elementBottom));
   }
 }
 
-function scrollToElement($element) {
-  $('html, body').animate({
-    scrollTop: $element.offset().top + $element.height() - $(window).height()
-  }, SCROLL_SPEED);
+function scrollToElement($element, delay = 0, duration = SCROLL_SPEED) {
+  let moveTo = $element.offset().top + ($element.height() / 2) + ($(window).height() / 2);
+
+  if (moveTo > $(document).height()) {
+    moveTo = $(document).height();
+  }
+
+  $('html, body').delay(delay).animate({
+    scrollTop: moveTo
+  }, duration);
 }
 
 function finish() {
