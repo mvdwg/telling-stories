@@ -46,10 +46,7 @@ export function testStart(context) {
 export function testEnd() {
 }
 
-export function assertionEnded({message}) {
+export function assertionEnded({message, expected, actual, result}) {
   message = $.trim(message);
-
-  if (message && player()) {
-    player().afterAssertion(message);
-  }
+  player().afterAssertion(result, expected, actual, message);
 }

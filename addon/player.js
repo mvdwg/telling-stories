@@ -52,6 +52,7 @@ class Player extends BasePlayer {
     this.container = container;
     this.moduleName = moduleName;
     this.testName = testName;
+    this.success = true;
 
     this.addTask(Animation.osd, this.moduleName, testName);
   }
@@ -106,16 +107,29 @@ class Player extends BasePlayer {
     return this;
   }
 
-  afterAssertion(message) {
-    this.addTask(Animation.log, message);
+  afterAssertion(result, expected, actual, message) {
+    let className = 'ts-log-message';
+
+    if (!result) {
+      this.success = false;
+      className += '-error';
+      message += `\r\nExpected: "${expected}"" but instead: "${actual}".`;
+    }
+
+    this.addTask(Animation.log, message, className);
     this.flushTasks();
 
     return this;
   }
 
   beforeEnd() {
-    this.addTask(Animation.log, 'The End', 'ts-the-end');
-    this.addTask(sleep, 2000);
+    let className = 'ts-the-end';
+
+    if (!this.success) {
+      className += '-error';
+    }
+    this.addTask(Animation.log, 'THE END', className);
+    this.addTask(sleep, 3000);
     this.addTask(Animation.finish);
     this.flushTasks();
 

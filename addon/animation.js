@@ -147,14 +147,14 @@ function logContainer() {
   return container;
 }
 
-function log(text, className) {
+function log(message, className) {
   let timeout = 2000;
 
   className = className || '';
 
   return new RSVP.Promise(function(resolve) {
     $('<div>', {
-      text,
+      text: message,
       class: 'ts-log-message ' + className
     })
     .hide()
