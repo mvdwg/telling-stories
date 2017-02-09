@@ -48,5 +48,7 @@ export function testEnd() {
 
 export function assertionEnded({message, expected, actual, result}) {
   message = $.trim(message);
-  player().afterAssertion(result, expected, actual, message);
+  if (message) {
+    player().afterAssertion(result, expected, actual, message);
+  }
 }
