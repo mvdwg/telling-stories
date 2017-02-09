@@ -116,7 +116,7 @@ function finish() {
 function osd(moduleName, testName, timeout) {
   timeout = timeout || 5000;
   testName = testName.capitalize();
-  moduleName = 'From feature ' + moduleName.replace('Acceptance | ','').capitalize();
+  moduleName = 'Feature: ' + moduleName.replace('Acceptance | ','').capitalize();
 
   return new RSVP.Promise(function(resolve) {
     $('<div>', { class: 'tsOSD' })
