@@ -1,13 +1,17 @@
 import { buildSelector } from 'ember-cli-page-object';
 import { findClosestValue } from 'ember-cli-page-object/-private/helpers';
+import { player } from './player';
 
-import Animation from './animation';
+/* global click */
+/* global wait */
+/* global fillIn */
+/* global visit */
+/* global triggerEvent */
+/* global find */
 
 export default function TellingStoriesContext(pageObjectNode) {
   this.pageObjectNode = pageObjectNode;
 }
-
-// let previousElement = null;
 
 TellingStoriesContext.prototype = {
   run(cb) {
@@ -15,7 +19,6 @@ TellingStoriesContext.prototype = {
   },
 
   runAsync(cb) {
-    /* global wait */
     wait().then(() => {
       cb(this);
     });
@@ -24,53 +27,39 @@ TellingStoriesContext.prototype = {
   },
 
   visit(path) {
-    /* global visit */
     visit(path);
-    wait().then(Animation.sleep(3000));
+    player().afterVisit();
   },
 
   click(selector, container) {
     container = container || '#ember-testing';
 
-    /* global wait */
-    wait()
-      .then(Animation.movePointerTo(selector, container))
-      .then(Animation.clickEffectBefore(container));
-
-    /* global click */
-    click(selector, container);
-
-    wait().then(Animation.clickEffectAfter(container));
+    player()
+      .beforeClick({selector, container})
+      .then(() => click(selector, container))
+      .afterClick();
   },
 
   fillIn(selector, container, text) {
     container = container || '#ember-testing';
 
-    /* global wait */
-    wait()
-      .then(Animation.movePointerTo(selector, container))
-      .then(Animation.clickEffectBefore(container));
-
-    /* global fillIn */
-    if (container) {
-      fillIn(selector, container, text);
-    } else {
-      fillIn(selector, text);
-    }
+    player()
+      .beforeFillIn({selector, container})
+      .then(() => {
+        fillIn(selector, container, text);
+      })
+      .afterFillIn();
   },
 
   triggerEvent(selector, container, eventName, eventOptions) {
     container = container || '#ember-testing';
 
-    /* global wait */
-    wait().then(Animation.sleep(500));
-
-    /* global triggerEvent */
-    triggerEvent(selector, container, eventName, eventOptions);
+    player()
+      .beforeTriggerEvent()
+      .then(() => triggerEvent(selector, container, eventName, eventOptions));
   },
 
   assertElementExists(selector, options) {
-    /* global find */
     let result = find(selector, options.testContainer || findClosestValue(this.pageObjectNode, 'testContainer'));
 
     if (result.length === 0) {
@@ -82,7 +71,6 @@ TellingStoriesContext.prototype = {
     let result;
     selector = buildSelector(this.pageObjectNode, selector, options);
 
-    /* global find */
     result = find(selector, options.testContainer || findClosestValue(this.pageObjectNode, 'testContainer'));
 
     this.attention(result);
@@ -95,7 +83,6 @@ TellingStoriesContext.prototype = {
 
     selector = buildSelector(this.pageObjectNode, selector, options);
 
-    /* global find */
     result = find(selector, options.testContainer || findClosestValue(this.pageObjectNode, 'testContainer'));
 
     if (result.length === 0) {

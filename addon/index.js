@@ -1,41 +1,54 @@
 import Ember from 'ember';
-import Animation from './animation';
+import { player, create as createPlayer } from './player';
 
-const { RSVP } = Ember;
+const { RSVP, $ } = Ember;
+
+var container;
 
 export function shutdown(returnValue) {
   let promise = RSVP.resolve(returnValue);
 
   if (window.QUnit && window.QUnit.urlParams.tellingStories) {
-    return Animation.finish().then(() => promise);
+    return new RSVP.Promise(function(resolve) {
+      player()
+        .beforeEnd()
+        .then(() => resolve(promise));
+    });
   }
 
   return promise;
 }
 
-export function suiteStart(totalTests) {
-  console.log(`Test suite starts. Total tests: ${totalTests}`);
+export function suiteStart() {
+  if ($('#test-root').length) {
+    container = '#test-root'; // ember-twiddle
+  } else {
+    container = '#ember-testing';
+  }
 }
 
 export function suiteEnd() {
-  console.log('Test suite ends');
 }
 
-export function moduleStart(name) {
-  console.log(`Module starts: ${name}`);
+export function moduleStart() {
 }
 
 export function moduleEnd() {
-  console.log('Module ends');
 }
 
 export function testStart(context) {
-  console.log(`Test starts: %o`, context);
   if (/^Acceptance/.test(context.module)) {
-    Animation.osd(context.name);
+    createPlayer(container, context);
+    player().beforeVisit(context.name);
   }
 }
 
 export function testEnd() {
-  console.log(`Test ends`);
+}
+
+export function assertionEnded({message, expected, actual, result}) {
+  message = $.trim(message);
+  if (message) {
+    player().afterAssertion(result, expected, actual, message);
+  }
 }

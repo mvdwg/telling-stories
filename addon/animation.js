@@ -3,10 +3,8 @@ import POINTER_DATA from './pointer-data';
 
 const { $, RSVP } = Ember;
 
-// 100px in 300ms
-const SPEED = 100 / 300;
-
-const SCROLL_SPEED = 2000;
+const SPEED = 100 / 300; // 100px in 300ms
+const SCROLL_SPEED = 500;
 
 function sleep(milliseconds) {
   return new RSVP.Promise(function(resolve) {
@@ -16,12 +14,12 @@ function sleep(milliseconds) {
   });
 }
 
-function clickEffectBefore(container) {
+function beforeClick(container) {
   pointer(container).addClass('tsClick');
   return sleep(200);
 }
 
-function clickEffectAfter(container) {
+function afterClick(container) {
   return sleep(500).then(() => pointer(container).removeClass('tsClick'));
 }
 
@@ -57,78 +55,126 @@ function pointer(container) {
   return pointer;
 }
 
-function movePointerTo(target, container) {
-  return function() {
-    let $target = $(target, container);
-    let offset = $target.offset();
-    let width = $target.width() / 2;
-    let height = $target.height() / 2 + 3;
+function movePointer(target, container) {
+  let $target = $(target.selector, target.container);
+  let offset = $target.offset();
+  let width = $target.outerWidth(true) / 2; // Includes border, paddings and margins
+  let height = $target.outerHeight(true) / 2; // Includes border, paddings and margins
 
-    offset.left = offset.left + width;
-    offset.top = offset.top + height;
+  offset.left = offset.left + width;
+  offset.top = offset.top + height;
 
-    let ms = delay(pointer(container).offset(), offset, SPEED);
+  let ms = delay(pointer(container).offset(), offset, SPEED);
 
-    pointer(container).offset(offset);
-    pointer(container).css('transition', `top ${ms}ms cubic-bezier(0.4, 0, 1, 1), left ${ms}ms linear`);
+  $(pointer(container)).animate({
+    top: offset.top,
+    left: offset.left
+  }, ms);
 
-    if(!isElementInView($target)) {
-      scrollToElement($target);
-    }
+  if(!isElementInView($target)) {
+    scrollToElement($target, 150, ms);
+  }
 
-    return sleep(ms + 100); // wait the delay plus a delta
-  };
+  return sleep(ms + 100); // wait the delay plus a delta
 }
 
 function isElementInView($element, fullyInView) {
-  let pageTop = $(window).scrollTop();
-  let pageBottom = pageTop + $(window).height();
+  let displayHeight = $(window).height();
   let elementTop = $element.offset().top;
-  let elementBottom = elementTop + $element.height();
+  let elementBottom = elementTop + $element.outerHeight(); // Includes borders and padding but excludes margins.
 
-  if (fullyInView === false) {
-      return ((pageTop < elementTop) && (pageBottom > elementBottom));
+  if (fullyInView) {
+    return ((elementBottom <= displayHeight) && (elementTop >= 0));
   } else {
-      return ((elementBottom <= pageBottom) && (elementTop >= pageTop));
+    return ((0 < elementTop) && (displayHeight > elementBottom));
   }
 }
 
-function scrollToElement($element) {
-  $('html, body').animate({
-    scrollTop: $element.offset().top
-  }, SCROLL_SPEED);
+function scrollToElement($element, delay = 0, duration = SCROLL_SPEED) {
+  let moveTo = $element.offset().top + ($element.height() / 2) + ($(window).height() / 2);
+
+  if (moveTo > $(document).height()) {
+    moveTo = $(document).height();
+  }
+
+  $('html, body').delay(delay).animate({
+    scrollTop: moveTo
+  }, duration);
 }
 
 function finish() {
-  $('body').fadeOut(3000).fadeIn(0);
-  return sleep(3000);
+  $('body')
+    .delay(4000)
+    .fadeOut(3000);
+
+  return sleep(7000).then(function() {
+    logContainer().html('');
+    $('body').show();
+  });
 }
 
-function osd(text, timeout) {
-  timeout = timeout || 3000;
+function osd(moduleName, testName, timeout) {
+  timeout = timeout || 5000;
+  testName = testName.capitalize();
+  moduleName = 'Feature: ' + moduleName.replace('Acceptance | ','').capitalize();
 
-  $('<div>', {
-    text,
-    class: 'tsOSD'
-  })
-  .appendTo($('body'))
-  .animate({
-    opacity: 1
-  }, timeout, function() { $(this).remove(); });
+  return new RSVP.Promise(function(resolve) {
+    $('<div>', { class: 'tsOSD' })
+    .html(`<span class="test-name">${testName}</span><span class="module-name">${moduleName}</span>`)
+    .appendTo($('body'));
+
+    sleep(timeout).then(() => {
+      $('.tsOSD').addClass('out');
+      sleep(800).then(() => {
+        $('#ember-testing-container').addClass('no-filter');
+        resolve();
+        $('.tsOSD').remove();
+      });
+    });
+  });
+}
+
+function logContainer() {
+  let container = $('.ts-log-container');
+
+  if (!container.length) {
+    container = $('<div>', {
+      class: 'ts-log-container'
+    })
+    .appendTo($('body'));
+  }
+
+  return container;
+}
+
+function log(message, className) {
+  let timeout = 2000;
+
+  className = className || '';
+
+  return new RSVP.Promise(function(resolve) {
+    $('<div>', {
+      text: message,
+      class: 'ts-log-message ' + className
+    })
+    .hide()
+    .appendTo(logContainer())
+    .slideDown(500)
+    .delay(timeout, function() {
+      resolve();
+    })
+    .fadeOut(400, function() {
+      $(this).remove();
+    });
+  });
 }
 
 export default {
   pointer,
-  movePointerTo,
   finish,
   osd,
-  clickEffectBefore() {
-    return () => clickEffectBefore();
-  },
-  clickEffectAfter() {
-    return () => clickEffectAfter();
-  },
-  sleep(milliseconds) {
-    return () => sleep(milliseconds);
-  }
+  log,
+  movePointer,
+  beforeClick,
+  afterClick
 };
