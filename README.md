@@ -36,6 +36,10 @@ $ ember serve
 Access http://localhost:4200/tests and you should see a new QUnit "Tell me the story" option on the top nav.
 By enabling it, your tests will run in "human" mode.
 
+## Examples
+
+Code Corps [Video](https://www.youtube.com/watch?v=rzEEmkChYN8) | [Branch](https://github.com/mvdwg/code-corps-ember/tree/telling-stories)
+
 ## Development
 
 ```
