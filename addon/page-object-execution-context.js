@@ -44,7 +44,7 @@ TellingStoriesContext.prototype = {
     container = container || '#ember-testing';
 
     player()
-      .beforeFillIn({selector, container})
+      .beforeFillIn({selector, container, text})
       .then(() => {
         fillIn(selector, container, text);
       })
