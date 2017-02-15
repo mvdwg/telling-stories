@@ -5,6 +5,10 @@ const { $, RSVP } = Ember;
 
 const SPEED = 100 / 300; // 100px in 300ms
 const SCROLL_SPEED = 500;
+const DELETE_SPEED = 50;
+const WRITE_SPEED = 90;
+
+let typingTimer = null;
 
 function sleep(milliseconds) {
   return new RSVP.Promise(function(resolve) {
@@ -53,6 +57,61 @@ function pointer(container) {
   }
 
   return pointer;
+}
+
+function typing(element, text, container) {
+  const $input = $(element, container);
+  $input.trigger('focus'); // Apply styles to the control.
+
+  let delayDelete = 200;
+  let timingDelete = DELETE_SPEED * $input.val().length;
+  let delayWrite = 200;
+  let timingWrite = WRITE_SPEED * text.length;
+  let totalDuration = delayDelete + timingDelete + delayWrite + timingWrite;
+
+  _deleteTextFromInput(delayDelete, timingDelete, $input).then(() => {
+    let index = 0;
+
+    typingTimer = window.setInterval(function() {
+      let letter = text[index];
+      let partialText = $input.val();
+      $input.val(`${partialText}${letter}`);
+
+      index++;
+
+      if (index === text.length) {
+        window.clearInterval(typingTimer);
+      }
+    }, WRITE_SPEED);
+  });
+
+  return sleep(totalDuration + 1000); //Extra delay simulate user interaction.
+}
+
+function _deleteTextFromInput(delayDelete, timing, $input) {
+  let totalDuration = delayDelete + timing;
+  let index = $input.val().length;
+  let initialLength = index;
+
+  if (initialLength === 0) {
+    if (typingTimer) {
+      window.clearInterval(typingTimer);
+    }
+    return sleep(totalDuration); // The input is empty
+  }
+
+  typingTimer = window.setInterval(function() {
+    let partialText = $input.val().slice(0, -1);
+
+    $input.val(`${partialText}`);
+    index--;
+
+    if (index === 0) {
+      window.clearInterval(typingTimer);
+    }
+  }, DELETE_SPEED);
+
+  return sleep(totalDuration + 500);
 }
 
 function movePointer(target, container) {
@@ -176,5 +235,6 @@ export default {
   log,
   movePointer,
   beforeClick,
-  afterClick
+  afterClick,
+  typing
 };

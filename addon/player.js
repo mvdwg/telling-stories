@@ -92,8 +92,10 @@ class Player extends BasePlayer {
     return this;
   }
 
-  beforeFillIn(element) {
-    return this.beforeClick(element);
+  beforeFillIn(context) {
+    this.beforeClick(context);
+    this.addTask(Animation.typing, context.selector, context.text, this.container);
+    return this;
   }
 
   afterFillIn() {
