@@ -54,6 +54,7 @@ class Player extends BasePlayer {
     this.testName = testName;
     this.success = true;
 
+    this.addTask(Animation.show);
     this.addTask(Animation.osd, this.moduleName, testName);
   }
 

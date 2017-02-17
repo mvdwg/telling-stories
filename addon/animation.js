@@ -161,13 +161,23 @@ function scrollToElement($element, delay = 0, duration = SCROLL_SPEED) {
   }, duration);
 }
 
-function finish() {
-  $('body')
-    .delay(4000)
-    .fadeOut(3000, () => $('body').show());
+function show() {
+  removeBlur();
+  return new RSVP.Promise(function(resolve) {
+    $('body').show(function(){
+      resolve();
+    });
+  });
+}
 
-  return sleep(7000).then(function() {
-    logContainer().html('');
+function finish() {
+  return new RSVP.Promise(function(resolve) {
+    $('body')
+      .delay(1000)
+      .fadeOut(3000, function() {
+        logContainer().html('');
+        resolve();
+      });
   });
 }
 
@@ -184,7 +194,7 @@ function osd(moduleName, testName, timeout) {
     sleep(timeout).then(() => {
       $('.tsOSD').addClass('out');
       sleep(800).then(() => {
-        $('#ember-testing-container').addClass('no-filter');
+        addBlur();
         resolve();
         $('.tsOSD').remove();
       });
@@ -227,6 +237,15 @@ function log(message, className) {
   });
 }
 
+function addBlur() {
+  $('#ember-testing-container').addClass('no-filter');
+}
+
+function removeBlur() {
+  $('#ember-testing-container').removeClass('no-filter');
+}
+
+
 export default {
   pointer,
   finish,
@@ -235,5 +254,6 @@ export default {
   movePointer,
   beforeClick,
   afterClick,
-  typing
+  typing,
+  show
 };
