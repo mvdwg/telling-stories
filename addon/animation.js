@@ -164,11 +164,10 @@ function scrollToElement($element, delay = 0, duration = SCROLL_SPEED) {
 function finish() {
   $('body')
     .delay(4000)
-    .fadeOut(3000);
+    .fadeOut(3000, () => $('body').show());
 
   return sleep(7000).then(function() {
     logContainer().html('');
-    $('body').show();
   });
 }
 
