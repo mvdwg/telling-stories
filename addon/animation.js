@@ -7,6 +7,7 @@ const SPEED = 100 / 300; // 100px in 300ms
 const SCROLL_SPEED = 500;
 const DELETE_SPEED = 50;
 const WRITE_SPEED = 90;
+const WRITABLE_INPUT_TYPES = ['text', 'email', 'tel', 'password', 'url', 'number'];
 
 let typingTimer = null;
 
@@ -61,6 +62,11 @@ function pointer(container) {
 
 function typing(element, text, container) {
   const $input = $(element, container);
+
+  if (!_canWrite($input)) {
+    return;
+  }
+
   $input.trigger('focus'); // Apply styles to the control.
 
   let delayDelete = 200;
@@ -86,6 +92,12 @@ function typing(element, text, container) {
   });
 
   return sleep(totalDuration + 1000); //Extra delay simulate user interaction.
+}
+
+function _canWrite($input) {
+  let isValidElement = WRITABLE_INPUT_TYPES.includes($input[0].type) || $input.is('textarea');
+  let isWritable = !$input.is(':disabled') && !$input.is('[readonly]');
+  return  isValidElement && isWritable;
 }
 
 function _deleteTextFromInput(delayDelete, timing, $input) {
