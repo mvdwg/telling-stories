@@ -5,11 +5,12 @@ const { $, RSVP } = Ember;
 
 const SPEED = 100 / 300; // 100px in 300ms
 const SCROLL_SPEED = 500;
-const DELETE_SPEED = 50;
-const WRITE_SPEED = 90;
+const START_TO_DELETE_DELAY = 300;
+const DELETE_SPEED = 7; // letters per second
+const START_TO_WRITE_DELAY = 300;
+const WRITE_SPEED = 5; // leters per second
 const WRITABLE_INPUT_TYPES = ['text', 'email', 'tel', 'password', 'url', 'number'];
 
-let typingTimer = null;
 
 function sleep(milliseconds) {
   return new RSVP.Promise(function(resolve) {
@@ -69,29 +70,28 @@ function typing(element, text, container) {
 
   $input.trigger('focus'); // Apply styles to the control.
 
-  let delayDelete = 200;
-  let timingDelete = DELETE_SPEED * $input.val().length;
-  let delayWrite = 200;
-  let timingWrite = WRITE_SPEED * text.length;
-  let totalDuration = delayDelete + timingDelete + delayWrite + timingWrite;
+  return _deleteTextFromInput($input).then(function() {
+    return sleep(START_TO_WRITE_DELAY);
+  }).then(function() {
+    return new RSVP.Promise(function(resolve) {
+      let index = 0;
+      let typingTimer = window.setInterval(function() {
 
-  _deleteTextFromInput(delayDelete, timingDelete, $input).then(() => {
-    let index = 0;
+        let currentText = $input.val();
 
-    typingTimer = window.setInterval(function() {
-      let letter = text[index];
-      let partialText = $input.val();
-      $input.val(`${partialText}${letter}`);
+        if (currentText.length !== text.length) {
+          let letter = text[index];
+          $input.val(`${currentText}${letter}`);
+          index++;
+          return;
+        }
 
-      index++;
-
-      if (index === text.length) {
         window.clearInterval(typingTimer);
-      }
-    }, WRITE_SPEED);
-  });
+        resolve();
 
-  return sleep(totalDuration + 1000); //Extra delay simulate user interaction.
+      }, 1000 / WRITE_SPEED);
+    });
+  });
 }
 
 function _canWrite($input) {
@@ -100,30 +100,24 @@ function _canWrite($input) {
   return  isValidElement && isWritable;
 }
 
-function _deleteTextFromInput(delayDelete, timing, $input) {
-  let totalDuration = delayDelete + timing;
-  let index = $input.val().length;
-  let initialLength = index;
+function _deleteTextFromInput($input) {
+  return sleep(START_TO_DELETE_DELAY).then(function() {
+    return new RSVP.Promise(function(resolve) {
+      let deleteTimer = window.setInterval(function() {
+        let currentText = $input.val();
 
-  if (initialLength === 0) {
-    if (typingTimer) {
-      window.clearInterval(typingTimer);
-    }
-    return sleep(totalDuration); // The input is empty
-  }
+        if (currentText.length !== 0) {
+          let textAfterDelete = currentText.slice(0, -1);
+          $input.val(textAfterDelete);
+          return;
+        }
 
-  typingTimer = window.setInterval(function() {
-    let partialText = $input.val().slice(0, -1);
+        window.clearInterval(deleteTimer);
+        resolve();
 
-    $input.val(`${partialText}`);
-    index--;
-
-    if (index === 0) {
-      window.clearInterval(typingTimer);
-    }
-  }, DELETE_SPEED);
-
-  return sleep(totalDuration + 500);
+      }, 1000 / DELETE_SPEED);
+    });
+  });
 }
 
 function movePointer(target, container) {
