@@ -3,12 +3,15 @@ import POINTER_DATA from './pointer-data';
 
 const { $, RSVP } = Ember;
 
-const SPEED = 100 / 300; // 100px in 300ms
-const SCROLL_SPEED = 500;
+const POINTER_SPEED = 300; // pixels/sec
+const SCROLL_SPEED = 500; // pixels/sec
+
 const START_TO_DELETE_DELAY = 300;
-const DELETE_SPEED = 7; // letters per second
+const DELETE_SPEED = 9; // letters per second
+
 const START_TO_WRITE_DELAY = 300;
-const WRITE_SPEED = 5; // leters per second
+const WRITE_SPEED = 6; // leters per second
+
 const WRITABLE_INPUT_TYPES = ['text', 'email', 'tel', 'password', 'url', 'number'];
 
 
@@ -26,15 +29,17 @@ function beforeClick(container) {
 }
 
 function afterClick(container) {
-  return sleep(500).then(() => pointer(container).removeClass('tsClick'));
+  return sleep(500).then(function() {
+    pointer(container).removeClass('tsClick');
+  });
 }
 
-function distance(a,b) {
+function _distance(a,b) {
   return Math.sqrt(Math.pow(b.left - a.left, 2) + Math.pow(b.top - a.top, 2));
 }
 
-function delay(from, to) {
-  return Math.round(1 / (SPEED / distance(from, to)));
+function _mouseMovementDelay(from, to) {
+  return Math.round(_distance(from, to) / (POINTER_SPEED / 1000));
 }
 
 /**
@@ -120,30 +125,43 @@ function _deleteTextFromInput($input) {
   });
 }
 
-function movePointer(target, container) {
+function movePointer(target, container, easing = "swing") {
+
+  let result;
   let $target = $(target.selector, target.container);
-  let offset = $target.offset();
-  let width = $target.outerWidth(true) / 2; // Includes border, paddings and margins
-  let height = $target.outerHeight(true) / 2; // Includes border, paddings and margins
 
-  offset.left = offset.left + width;
-  offset.top = offset.top + height;
-
-  let ms = delay(pointer(container).offset(), offset, SPEED);
-
-  $(pointer(container)).animate({
-    top: offset.top,
-    left: offset.left
-  }, ms);
-
-  if(!isElementInView($target)) {
-    scrollToElement($target, 150, ms);
+  if(!_isElementInViewport($target)) {
+    result = scrollToElement($target, 150);
+  } else {
+    result = RSVP.resolve();
   }
 
-  return sleep(ms + 100); // wait the delay plus a delta
+
+  return result.then(function() {
+    return new RSVP.Promise(function(resolve) {
+
+      let scrollPos = $(window).scrollTop();
+      let offset = $target.offset();
+      let width = $target.outerWidth(true); // Includes border, paddings and margins
+      let height = $target.outerHeight(true); // Includes border, paddings and margins
+      let origin = pointer(container).offset();
+
+      origin.top = origin.top - scrollPos;
+
+      offset.left = offset.left + (width / 2);
+      offset.top = offset.top + (height / 2) - scrollPos;
+
+      let duration = _mouseMovementDelay(origin, offset);
+
+      $(pointer(container)).animate({
+        top: offset.top,
+        left: offset.left
+      }, duration, easing, resolve);
+    });
+  });
 }
 
-function isElementInView($element, fullyInView) {
+function _isElementInViewport($element, fullyInView) {
   let displayHeight = $(window).height();
   let elementTop = $element.offset().top;
   let elementBottom = elementTop + $element.outerHeight(); // Includes borders and padding but excludes margins.
@@ -155,16 +173,20 @@ function isElementInView($element, fullyInView) {
   }
 }
 
-function scrollToElement($element, delay = 0, duration = SCROLL_SPEED) {
+function scrollToElement($element, delay = 0, easing="swing") {
   let moveTo = $element.offset().top + ($element.height() / 2) + ($(window).height() / 2);
+  let currentPos = $(document).scrollTop();
+  let duration = Math.abs(currentPos - moveTo) / (SCROLL_SPEED / 1000);
 
   if (moveTo > $(document).height()) {
     moveTo = $(document).height();
   }
 
-  $('html, body').delay(delay).animate({
-    scrollTop: moveTo
-  }, duration);
+  return new RSVP.Promise(function(resolve) {
+    $('html, body').delay(delay).animate({
+      scrollTop: moveTo
+    }, duration, easing, resolve);
+  });
 }
 
 function show() {
