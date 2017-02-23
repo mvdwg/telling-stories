@@ -66,6 +66,10 @@ function pointer(container) {
   return pointer;
 }
 
+function _destroyPointer(container) {
+  $('#tsPointer', container).remove();
+}
+
 function typing(element, text, container) {
   const $input = $(element, container);
 
@@ -126,7 +130,6 @@ function _deleteTextFromInput($input) {
 }
 
 function movePointer(target, container, easing = "swing") {
-
   let result;
   let $target = $(target.selector, target.container);
 
@@ -189,8 +192,9 @@ function scrollToElement($element, delay = 0, easing="swing") {
   });
 }
 
-function show() {
+function show(container) {
   removeBlur();
+  pointer(container);
   return new RSVP.Promise(function(resolve) {
     $('body').show(function(){
       resolve();
@@ -198,12 +202,13 @@ function show() {
   });
 }
 
-function finish() {
+function finish(container) {
   return new RSVP.Promise(function(resolve) {
     $('body')
       .delay(1000)
       .fadeOut(3000, function() {
         logContainer().html('');
+        _destroyPointer(container);
         resolve();
       });
   });

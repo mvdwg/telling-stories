@@ -54,7 +54,7 @@ class Player extends BasePlayer {
     this.testName = testName;
     this.success = true;
 
-    this.addTask(Animation.show);
+    this.addTask(Animation.show, this.container);
     this.addTask(Animation.osd, this.moduleName, testName);
   }
 
@@ -133,7 +133,7 @@ class Player extends BasePlayer {
     }
     this.addTask(Animation.log, 'THE END', className);
     this.addTask(sleep, 3000);
-    this.addTask(Animation.finish);
+    this.addTask(Animation.finish, this.container);
     this.flushTasks();
 
     return this;
