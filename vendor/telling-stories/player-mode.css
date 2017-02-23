@@ -24,7 +24,7 @@
 
 /* Player */
 #tsPointer {
-  position: absolute;
+  position: fixed;
   left: 600px;
   top: 200px;
   z-index: 999999999;
