@@ -7,13 +7,14 @@ const POINTER_SPEED = 300; // pixels/sec
 const SCROLL_SPEED = 500; // pixels/sec
 
 const START_TO_DELETE_DELAY = 300;
-const DELETE_SPEED = 9; // letters per second
+const DELETE_SPEED = 15; // letters per second
 
 const START_TO_WRITE_DELAY = 300;
-const WRITE_SPEED = 6; // leters per second
+const WRITE_SPEED = 9; // leters per second
+
+const LONG_TEXT_LENGTH = 30;
 
 const WRITABLE_INPUT_TYPES = ['text', 'email', 'tel', 'password', 'url', 'number'];
-
 
 function sleep(milliseconds) {
   return new RSVP.Promise(function(resolve) {
@@ -72,7 +73,6 @@ function _destroyPointer(container) {
 
 function typing(element, text, container) {
   const $input = $(element, container);
-
   if (!_canWrite($input)) {
     return;
   }
@@ -82,6 +82,7 @@ function typing(element, text, container) {
   return _deleteTextFromInput($input).then(function() {
     return sleep(START_TO_WRITE_DELAY);
   }).then(function() {
+
     return new RSVP.Promise(function(resolve) {
       let index = 0;
       let typingTimer = window.setInterval(function() {
@@ -97,7 +98,6 @@ function typing(element, text, container) {
 
         window.clearInterval(typingTimer);
         resolve();
-
       }, 1000 / WRITE_SPEED);
     });
   });
@@ -109,23 +109,59 @@ function _canWrite($input) {
   return  isValidElement && isWritable;
 }
 
+function _canSelect($input) {
+  return WRITABLE_INPUT_TYPES.includes($input[0].type) || $input.is('textarea');
+}
+
 function _deleteTextFromInput($input) {
-  return sleep(START_TO_DELETE_DELAY).then(function() {
-    return new RSVP.Promise(function(resolve) {
-      let deleteTimer = window.setInterval(function() {
-        let currentText = $input.val();
-
-        if (currentText.length !== 0) {
-          let textAfterDelete = currentText.slice(0, -1);
-          $input.val(textAfterDelete);
-          return;
-        }
-
-        window.clearInterval(deleteTimer);
+  return new RSVP.Promise((resolve) => {
+    sleep(START_TO_DELETE_DELAY).then(() => {
+      let isLongText = $input.val().length >= LONG_TEXT_LENGTH;
+      let promise = isLongText ? _deleteLongText($input) : _deleteShortText($input);
+      promise.then(() => {
         resolve();
-
-      }, 1000 / DELETE_SPEED);
+      });
     });
+  });
+}
+
+function _deleteShortText($input) {
+  return new RSVP.Promise((resolve) => {
+    let deleteTimer = window.setInterval(function() {
+      let currentText = $input.val();
+
+      if (currentText.length !== 0) {
+        $input.val(currentText.slice(0, -1));
+        return;
+      }
+
+      window.clearInterval(deleteTimer);
+      resolve();
+    }, 1000 / DELETE_SPEED);
+  });
+}
+
+function _deleteLongText($input) {
+  return new RSVP.Promise((resolve) => {
+    selectText($input).then(() => {
+      sleep(300).then(() => {
+        $input.val('');
+        resolve();
+      });
+    });
+  });
+}
+
+function selectText($input) {
+  return new RSVP.Promise((resolve, reject) => {
+    if ($input && _canSelect($input)) {
+      sleep(300).then(() => {
+        $input.select();
+        resolve();
+      });
+    } else {
+      reject('Input is undefined or not selectable.');
+    }
   });
 }
 
@@ -138,7 +174,6 @@ function movePointer(target, container, easing = "swing") {
   } else {
     result = RSVP.resolve();
   }
-
 
   return result.then(function() {
     return new RSVP.Promise(function(resolve) {
@@ -278,7 +313,6 @@ function removeBlur() {
   $('#ember-testing-container').removeClass('no-filter');
 }
 
-
 export default {
   pointer,
   finish,
@@ -288,5 +322,6 @@ export default {
   beforeClick,
   afterClick,
   typing,
+  selectText,
   show
 };
