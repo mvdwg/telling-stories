@@ -7,13 +7,13 @@ const POINTER_SPEED = 300; // pixels/sec
 const SCROLL_SPEED = 500; // pixels/sec
 
 const START_TO_DELETE_DELAY = 300;
-const DELETE_SPEED = 9; // letters per second
+const DELETE_SPEED = 15; // letters per second
 
 const START_TO_WRITE_DELAY = 300;
-const WRITE_SPEED = 6; // leters per second
+const WRITE_SPEED = 9; // leters per second
 
+const SUPPORTED_TRIGGER_EVENTS = ['keyup', 'keydown', 'focus', 'blur'];
 const WRITABLE_INPUT_TYPES = ['text', 'email', 'tel', 'password', 'url', 'number'];
-
 
 function sleep(milliseconds) {
   return new RSVP.Promise(function(resolve) {
@@ -129,6 +129,60 @@ function _deleteTextFromInput($input) {
   });
 }
 
+function _triggerKeyEvent(selector, container, eventName, eventOptions) {
+  return new RSVP.Promise((resolve) => {
+    let eventTooltip = $('#tsKeystroke', container);
+
+    if (!eventTooltip.length) {
+      $(container).append($(`<span id="tsKeystroke"><span class="event-type"></span><span class="key"></span></span>`));
+      eventTooltip = $('#tsKeystroke', container);
+    }
+
+    let $element = $(selector, container);
+    $element.focus();
+    _triggerFocusBlurEvent(selector, 'focus').then(() => {
+      let keyInfo = 'enter';
+      if (eventOptions && eventOptions.keyCode && eventOptions.keyCode !== 13) {
+        keyInfo = `CODE ${eventOptions.keyCode}`;
+      }
+
+      log(`${eventName} ${keyInfo} in ${selector}`, 'ts-log-message-event');
+
+      eventTooltip.find('.event-type').text(eventName);
+      eventTooltip.find('.key').text(keyInfo.toUpperCase());
+      eventTooltip.fadeTo(300, 1, () => {
+        sleep(1200).then(() => {
+          eventTooltip.fadeTo(300, 0, () => {
+            eventTooltip.remove();
+            resolve();
+          });
+        });
+      });
+    });
+  });
+}
+
+function _triggerFocusBlurEvent(selector, eventName) {
+  return new RSVP.Promise((resolve) => {
+    let action = eventName === 'focus'? 'got': 'lost';
+    log(`${selector} ${action} focus`, 'ts-log-message-event');
+
+    sleep(300).then(() => resolve());
+  });
+}
+
+function triggerEvent(selector, container, eventName, eventOptions) {
+  if (!SUPPORTED_TRIGGER_EVENTS.includes(eventName)) {
+    return;
+  }
+
+  if (['keyup', 'keydown'].includes(eventName)) {
+    return _triggerKeyEvent(selector, container, eventName, eventOptions);
+  }
+
+  return _triggerFocusBlurEvent(selector, eventName);
+}
+
 function movePointer(target, container, easing = "swing") {
   let result;
   let $target = $(target.selector, target.container);
@@ -138,7 +192,6 @@ function movePointer(target, container, easing = "swing") {
   } else {
     result = RSVP.resolve();
   }
-
 
   return result.then(function() {
     return new RSVP.Promise(function(resolve) {
@@ -288,5 +341,6 @@ export default {
   beforeClick,
   afterClick,
   typing,
+  triggerEvent,
   show
 };

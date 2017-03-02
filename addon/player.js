@@ -103,8 +103,8 @@ class Player extends BasePlayer {
     return this;
   }
 
-  beforeTriggerEvent() {
-    this.addTask(sleep, 500);
+  beforeTriggerEvent(context) {
+    this.addTask(Animation.triggerEvent, context.selector, context.container, context.eventName, context.eventOptions);
     this.flushTasks();
 
     return this;
