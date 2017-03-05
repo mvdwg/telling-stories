@@ -14,7 +14,6 @@ const WRITE_SPEED = 6; // leters per second
 
 const WRITABLE_INPUT_TYPES = ['text', 'email', 'tel', 'password', 'url', 'number'];
 
-
 function sleep(milliseconds) {
   return new RSVP.Promise(function(resolve) {
     window.setTimeout(function() {

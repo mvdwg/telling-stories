@@ -53,6 +53,7 @@ class Player extends BasePlayer {
     this.moduleName = moduleName;
     this.testName = testName;
     this.success = true;
+    QUnit.config.testTimeout = undefined;
 
     this.addTask(Animation.show, this.container);
     this.addTask(Animation.osd, this.moduleName, testName);
