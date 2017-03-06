@@ -19,7 +19,8 @@ module.exports = {
     this._super.included.apply(this, arguments);
 
     app.import('vendor/telling-stories/qunit-configuration.js', { type: 'test', prepend: true });
-    app.import('vendor/telling-stories/player-mode.css', { type: 'test' });
+    app.import('vendor/telling-stories/css/player-mode.css', { type: 'test' });
+    app.import('vendor/telling-stories/css/playback-controls.css', { type: 'test' });
   },
 
   treeFor: function() {

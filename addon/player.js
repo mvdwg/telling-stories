@@ -1,4 +1,4 @@
-/* global wait */
+/* global wait, QUnit, $ */
 import Ember from 'ember';
 import Animation from './animation';
 
@@ -53,10 +53,60 @@ class Player extends BasePlayer {
     this.moduleName = moduleName;
     this.testName = testName;
     this.success = true;
+    this.isPlaying = true; // Determine if the player is playing or in pause
+    this._playerInterval = null; // Stores interval ID of the pause state
     QUnit.config.testTimeout = undefined;
+
+    this.initPlayerControls(); // Init playback controls.
 
     this.addTask(Animation.show, this.container);
     this.addTask(Animation.osd, this.moduleName, testName);
+  }
+
+  initPlayerControls() {
+    $('body').append(`<div id="tsToolBar" class="ts-toolbar">
+      <button id="btnTogglePlay" class="ts-toolbar--action">PAUSE</button>
+      <span id="playerInfo" class="ts-toolbar--info"></span>
+    </div>`);
+
+    $('#btnTogglePlay').on('click', () => this.togglePlay());
+  }
+
+  togglePlay() {
+    if (this.isPlaying) {
+      this._pause();
+    } else {
+      this._play();
+    }
+  }
+
+  _play() {
+    this.isPlaying = true;
+    let toolbar = $('#tsToolBar');
+    toolbar.removeClass('ts-toolbar__stop');
+    $('#btnTogglePlay').text('PAUSE');
+    $('#playerInfo').text('');
+
+    this.flushTasks();
+  }
+
+  _pause() {
+    this.isPlaying = false;
+    let toolbar = $('#tsToolBar');
+    toolbar.addClass('ts-toolbar__stop');
+    $('#btnTogglePlay').text('PLAY');
+    $('#playerInfo').text('Player is in pause, now you can inspect elements and see what is exactly happens.');
+
+    let promise = new RSVP.Promise((resolve) => {
+      this._playerInterval = setInterval(() => {
+        if (this.isPlaying) {
+          clearInterval(this._playerInterval);
+          resolve();
+        }
+      }, 700);
+    });
+
+    this.addTask(() => promise);
   }
 
   // Generic action
@@ -139,19 +189,30 @@ class Player extends BasePlayer {
 
     return this;
   }
+
+  destroy() {
+    // Clean up all the resources before destroy the player.
+    return new RSVP.Promise((resolve) => {
+      if($('#tsToolBar').length > 0) {
+        $('#tsToolBar').remove();
+      }
+
+      resolve();
+    });
+  }
 }
 
 // Singleton instance of Player
-var current = null;
+var tsCurrentPlayer = null;
 
 export function player() {
-  if (!current) {
+  if (!tsCurrentPlayer) {
     console.warn('You need to start a player first');
   }
 
-  return current;
+  return tsCurrentPlayer;
 }
 
 export function create(container, context) {
-  current = new Player(container, context.module, context.name);
+  tsCurrentPlayer = new Player(container, context.module, context.name);
 }

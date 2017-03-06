@@ -44,6 +44,8 @@ export function testStart(context) {
 }
 
 export function testEnd() {
+  // After all the animations finished, we call destroy method in order to clean up elements and events
+  player().destroy();
 }
 
 export function assertionEnded({message, expected, actual, result}) {
