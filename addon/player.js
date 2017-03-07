@@ -53,8 +53,7 @@ class Player extends BasePlayer {
     this.moduleName = moduleName;
     this.testName = testName;
     this.success = true;
-    this.isPlaying = true; // Determine if the player is playing or in pause
-    this._playerInterval = null; // Stores interval ID of the pause state
+    this.pausePromise = null;
     QUnit.config.testTimeout = undefined;
 
     this.initPlayerControls(); // Init playback controls.
@@ -73,15 +72,16 @@ class Player extends BasePlayer {
   }
 
   togglePlay() {
-    if (this.isPlaying) {
-      this._pause();
-    } else {
+    if (this.pausePromise) {
       this._play();
+    } else {
+      this._pause();
     }
   }
 
   _play() {
-    this.isPlaying = true;
+    this.pausePromise.resolve();
+    this.pausePromise = null;
     let toolbar = $('#tsToolBar');
     toolbar.removeClass('ts-toolbar__stop');
     $('#btnTogglePlay').text('PAUSE');
@@ -91,22 +91,14 @@ class Player extends BasePlayer {
   }
 
   _pause() {
-    this.isPlaying = false;
     let toolbar = $('#tsToolBar');
     toolbar.addClass('ts-toolbar__stop');
     $('#btnTogglePlay').text('PLAY');
     $('#playerInfo').text('Player is in pause, now you can inspect elements and see what is exactly happens.');
 
-    let promise = new RSVP.Promise((resolve) => {
-      this._playerInterval = setInterval(() => {
-        if (this.isPlaying) {
-          clearInterval(this._playerInterval);
-          resolve();
-        }
-      }, 700);
-    });
+    this.pausePromise = RSVP.defer();
 
-    this.addTask(() => promise);
+    this.addTask(() => this.pausePromise.promise);
   }
 
   // Generic action
