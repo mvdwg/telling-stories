@@ -110,6 +110,33 @@
   transition: filter 3s;
 }
 
+#tsKeystroke {
+  background-color: rgba(50,50,50, .8);
+  color: rgba(255, 255, 255, 0.9);
+  text-shadow: 0 1pxa 1px rgba(0, 0, 0, 0.5);
+  border-radius: 5px;
+  padding: 18px;
+  text-align: center;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10000;
+  opacity: 0;
+}
+
+#tsKeystroke .event-type{
+  display: block;
+  font-size: 11px;
+}
+
+#tsKeystroke .key {
+  display: block;
+  font-size: 25px;
+  line-height: 1.3;
+  font-family: monospace;
+}
+
 .ts-log-container {
   position: fixed;
   bottom: 7px;
@@ -138,12 +165,17 @@
   border-left: 5px solid rgba(101, 197, 11, 0.9);
 }
 
-.ts-log-message-error {
+.ts-log-message.ts-log-message-error {
   margin-left: 0;
   margin-right: 0;
   background-color: rgba(251, 225, 225, 0.9);
   color: #940e0e;
   border-left-color: rgba(255, 0, 0, 0.9);
+}
+
+.ts-log-message.ts-log-message-event {
+  border-left-color: rgba(133, 133, 133, 0.9);
+  background-color: rgba(234, 234, 234, 0.9);
 }
 
 .ts-log-message.ts-the-end {

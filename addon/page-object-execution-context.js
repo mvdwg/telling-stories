@@ -55,7 +55,7 @@ TellingStoriesContext.prototype = {
     container = container || '#ember-testing';
 
     player()
-      .beforeTriggerEvent()
+      .beforeTriggerEvent({selector, container, eventName, eventOptions})
       .then(() => triggerEvent(selector, container, eventName, eventOptions));
   },
 
