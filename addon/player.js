@@ -24,8 +24,7 @@ class BasePlayer {
   }
 
   flushTasks() {
-    // global wait
-    var tasks = this.pendingTasks;
+    let tasks = this.pendingTasks;
 
     this.pendingTasks = [];
 
@@ -142,7 +141,7 @@ class Player extends BasePlayer {
 }
 
 // Singleton instance of Player
-var current = null;
+let current = null;
 
 export function player() {
   if (!current) {
