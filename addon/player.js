@@ -71,7 +71,8 @@ class Player extends BasePlayer {
     return this;
   }
 
-  afterVisit() {
+  afterVisit(path) {
+    this.addTask(Animation.log, `Visit ${path}`, 'ts-log-message');
     this.addTask(sleep, 3000);
     this.flushTasks();
 
