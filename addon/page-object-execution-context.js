@@ -28,7 +28,7 @@ TellingStoriesContext.prototype = {
 
   visit(path) {
     visit(path);
-    player().afterVisit();
+    player().afterVisit(path);
   },
 
   click(selector, container) {
