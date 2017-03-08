@@ -24,8 +24,7 @@ class BasePlayer {
   }
 
   flushTasks() {
-    // global wait
-    var tasks = this.pendingTasks;
+    let tasks = this.pendingTasks;
 
     this.pendingTasks = [];
 
@@ -114,7 +113,8 @@ class Player extends BasePlayer {
     return this;
   }
 
-  afterVisit() {
+  afterVisit(path) {
+    this.addTask(Animation.log, `Visit ${path}`, 'ts-log-message');
     this.addTask(sleep, 3000);
     this.flushTasks();
 
@@ -146,8 +146,8 @@ class Player extends BasePlayer {
     return this;
   }
 
-  beforeTriggerEvent() {
-    this.addTask(sleep, 500);
+  beforeTriggerEvent(context) {
+    this.addTask(Animation.triggerEvent, context.selector, context.container, context.eventName, context.eventOptions);
     this.flushTasks();
 
     return this;

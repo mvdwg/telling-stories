@@ -28,7 +28,7 @@ TellingStoriesContext.prototype = {
 
   visit(path) {
     visit(path);
-    player().afterVisit();
+    player().afterVisit(path);
   },
 
   click(selector, container) {
@@ -55,7 +55,7 @@ TellingStoriesContext.prototype = {
     container = container || '#ember-testing';
 
     player()
-      .beforeTriggerEvent()
+      .beforeTriggerEvent({selector, container, eventName, eventOptions})
       .then(() => triggerEvent(selector, container, eventName, eventOptions));
   },
 

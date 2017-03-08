@@ -52,5 +52,8 @@ export function assertionEnded({message, expected, actual, result}) {
   message = $.trim(message);
   if (message) {
     player().afterAssertion(result, expected, actual, message);
+  } else {
+    message = `Expected "${expected}", ok`;
+    player().afterAssertion(result, expected, actual, message);
   }
 }
