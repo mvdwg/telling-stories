@@ -13,6 +13,7 @@ jQuery(function() {
 
       var callbacks = require('telling-stories');
 
+      qunit.config.testTimeout = undefined;
       qunit.begin(callbacks.suiteStart);
       qunit.done(callbacks.suiteEnd);
       qunit.moduleStart(callbacks.moduleStart);

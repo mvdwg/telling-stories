@@ -53,7 +53,6 @@ class Player extends BasePlayer {
     this.testName = testName;
     this.success = true;
     this.pausePromise = null;
-    QUnit.config.testTimeout = undefined;
 
     this.initPlayerControls(); // Init playback controls.
 
