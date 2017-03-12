@@ -1,4 +1,4 @@
-/* global wait, QUnit, $ */
+/* global wait, $ */
 import Ember from 'ember';
 import Animation from './animation';
 
