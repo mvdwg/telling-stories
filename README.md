@@ -40,6 +40,23 @@ By enabling it, your tests will run in "human" mode.
 
 Code Corps [Video](https://www.youtube.com/watch?v=rzEEmkChYN8) | [Branch](https://github.com/mvdwg/code-corps-ember/tree/telling-stories)
 
+## Generate documentation site
+
+To generate a visual documentation site for your app, just run
+
+```
+$ ember build:features
+```
+
+This command generates a documentation site on dist/ folder. You can check it
+out locally by running
+
+```
+$ cd dist/
+$ python -m SimpleHTTPServer
+```
+
+
 ## Development
 
 ```
