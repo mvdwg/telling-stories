@@ -194,16 +194,16 @@ class Player extends BasePlayer {
 }
 
 // Singleton instance of Player
-var tsCurrentPlayer = null;
+let currentPlayer = null;
 
 export function player() {
-  if (!tsCurrentPlayer) {
+  if (!currentPlayer) {
     console.warn('You need to start a player first');
   }
 
-  return tsCurrentPlayer;
+  return currentPlayer;
 }
 
 export function create(container, context) {
-  tsCurrentPlayer = new Player(container, context.module, context.name);
+  currentPlayer = new Player(container, context.module, context.name);
 }
