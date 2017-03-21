@@ -32,29 +32,34 @@
   </script>
 
   <script>
-    fetch('/telling-stories.json').then(function(result) {
-      return result.json();
-    }).then(function(result) {
-      return result['features'];
-    }).then(function(features) {
-      var featureTemplate = document.getElementById('template-feature').innerHTML;
-      var testTemplate = document.getElementById('template-test').innerHTML;
+    function processFeaturesJson() {
+      if (httpRequest.readyState === XMLHttpRequest.DONE) {
+        if (httpRequest.status === 200) {
+          var features = JSON.parse(httpRequest.responseText)['features'];
+          var featureTemplate = document.getElementById('template-feature').innerHTML;
+          var testTemplate = document.getElementById('template-test').innerHTML;
 
-      var html = features.map(function(feature) {
-        var testsTemplate = feature.tests.map(function(test) {
-          return testTemplate
-            .replace('$Module', encodeURIComponent(feature.module))
-            .replace('$Test', encodeURIComponent(test.name))
-            .replace('$TestName', test.name);
-        }).join('');
+          var html = features.map(function(feature) {
+            var testsTemplate = feature.tests.map(function(test) {
+              return testTemplate
+              .replace('$Module', encodeURIComponent(feature.module))
+              .replace('$Test', encodeURIComponent(test.name))
+              .replace('$TestName', test.name);
+            }).join('');
 
-        return featureTemplate
-          .replace('$FeatureTitle', feature.module.replace('Acceptance | ', ''))
-          .replace('$Tests', testsTemplate);
-      }).join('');
+            return featureTemplate
+            .replace('$FeatureTitle', feature.module.replace('Acceptance | ', ''))
+            .replace('$Tests', testsTemplate);
+          }).join('');
 
-      document.getElementById('features').innerHTML = html;
-    });
+          document.getElementById('features').innerHTML = html;
+        }
+      }
+    }
+    var httpRequest = new XMLHttpRequest();
+    httpRequest.onreadystatechange = processFeaturesJson;
+    httpRequest.open('GET', '/telling-stories.json');
+    httpRequest.send();
   </script>
   </body>
 </html>
