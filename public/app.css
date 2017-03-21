@@ -1,0 +1,109 @@
+html,
+body,
+.ember-application > .ember-view,
+.ember-application > .ember-view > .ember-view {
+  height: 100%; margin: 0;
+}
+
+.ts {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #fff;
+  display: flex;
+  flex-flow: row;
+  height: 100%;
+  margin: 0;
+
+  color: rgb(102, 102, 102);
+  font-family: 'Roboto', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+  font-size: 14px;
+  font-weight: 300;
+  letter-spacing: .01em;
+  line-height: 1.6;
+}
+
+.ts-feature-list {
+  width: 220px;
+  border-right: 1px solid #666;
+  height: 100vh;
+  overflow: scroll;
+}
+
+.ts-header {
+  display: block;
+  color: #FAFAFA;
+  background-color: #333;
+}
+
+.ts-header h1 {
+  margin: 0;
+  text-align: center;
+  font-weight: 100;
+}
+
+.ts-feature-list__title {
+  font-size: 110%;
+  position: relative;
+  border-radius: 3px;
+  padding: 0.75em 1em;
+  margin: 0;
+  background-color: #FAFAFA;
+  box-shadow: 1px 1px 4px rgba(0,0,0,0.065);
+  font-weight: 100;
+}
+
+.ts-feature-item {
+  display: flex;
+  background-color: #FAFAFA;
+  background: linear-gradient(to bottom, #fff, #F2F2F2);
+  padding: 0.75em 1em;
+  box-shadow: 1px 1px 4px rgba(0,0,0,0.065);
+  position: relative;
+  padding: 10px 20px !important;
+  list-style: none;
+  box-sizing: border-box;
+  text-decoration: none;
+  cursor: pointer;
+  border-left: 5px solid #C6E746;
+  margin-bottom: 3px;
+}
+
+.ts-feature-item:hover,
+.ts-feature-item:visited,
+.ts-feature-item:active,
+.ts-feature-item {
+  color:#666;
+}
+
+.ts-feature-item:hover,
+.ts-feature-item.active {
+  background: linear-gradient(to bottom, #F2F2F2, #fff);
+}
+
+.ts iframe {
+  width: 100%;
+  border: none;
+  min-height: 400px;
+  flex: 1 1;
+}
+
+.ts-empty-state {
+  box-sizing: border-box;
+  width: calc(100% - 220px);
+  padding-top: 150px;
+  text-align: center;
+  font-size: 200%;
+  font-weight: bold;
+  color: white;
+  text-shadow: 0px 0px 2px black;
+
+  background: url('/telling-stories-dashboard/popcorn.png') 40% 25% no-repeat;
+}
+
+.ts-empty-state--message {
+  max-width: 450px;
+  display: inline-block;
+}
