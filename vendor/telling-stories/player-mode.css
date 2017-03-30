@@ -27,7 +27,7 @@
   position: fixed;
   left: 600px;
   top: 200px;
-  z-index: 999999999;
+  z-index: 99998;
 }
 
 #tsPointer img {
