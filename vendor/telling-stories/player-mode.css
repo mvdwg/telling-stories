@@ -178,6 +178,14 @@
   background-color: rgba(234, 234, 234, 0.9);
 }
 
+.ts-log-message-annotation {
+  margin-left: 0;
+  margin-right: 0;
+  background-color: rgba(210, 224, 230, 0.9);
+  color: rgb(43, 129, 175);
+  border-left-color: rgba(43, 129, 175, 0.9);
+}
+
 .ts-log-message.ts-the-end {
   background-color: rgba(101, 197, 11, 0.9);
   border-color: rgba(101, 197, 11, 0.9);

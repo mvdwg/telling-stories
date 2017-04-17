@@ -55,3 +55,9 @@ export function assertionEnded({message, expected, actual, result}) {
     player().afterAssertion(result, expected, actual, message);
   }
 }
+
+export function annotation(message) {
+  if (player()) {
+    player().annotate(message);
+  }
+}

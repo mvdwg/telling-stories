@@ -138,6 +138,14 @@ class Player extends BasePlayer {
 
     return this;
   }
+
+  annotate(message) {
+    if (message) {
+      this.addTask(Animation.log, message, 'ts-log-message-annotation');
+    }
+
+    return this;
+  }
 }
 
 // Singleton instance of Player

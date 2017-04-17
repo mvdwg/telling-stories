@@ -40,6 +40,39 @@ By enabling it, your tests will run in "human" mode.
 
 Code Corps [Video](https://www.youtube.com/watch?v=rzEEmkChYN8) | [Branch](https://github.com/mvdwg/code-corps-ember/tree/telling-stories)
 
+## API
+
+`telling-stories` exposes a tiny API for the end application to use.
+
+### annotation
+
+Show a custom message when playing the test.
+
+__Signature__ `annotation(string): string`
+
+__Example__
+
+```js
+import { test } from 'qunit';
+import moduleForAcceptance from '../helpers/module-for-acceptance';
+import page from '../pages/my-page';
+import { annotation } from 'telling-stories';
+
+moduleForAcceptance('Acceptance | foo bar');
+
+test('a test', function(assert) {
+  page.visit();
+
+  annotation('Visiting /foo');
+
+  andThen(function() {
+    assert.equal(currentURL(), '/foo');
+  });
+
+  annotation('Another message');
+});
+```
+
 ## Generate documentation site
 
 To generate a visual documentation site for your app, just run
