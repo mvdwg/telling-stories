@@ -13,6 +13,7 @@
     </div>
 
     <iframe class="ts-player" id="tsplayer" name="tsplayer" src="data:text/plain,Pick a test"></iframe>
+    <a class="embed-link" onclick="" href="#"> Embed</a>
   </main>
 
   <script id="template-feature" type="text/template">
@@ -42,7 +43,7 @@
           var html = features.map(function(feature) {
             var testsTemplate = feature.tests.map(function(test) {
               return testTemplate
-              .replace('$TestId', encodeURIComponent(test.id))
+              .replace(/\$TestId/g, encodeURIComponent(test.id))
               .replace('$TestName', test.name);
             }).join('');
 
@@ -59,6 +60,16 @@
     httpRequest.onreadystatechange = processFeaturesJson;
     httpRequest.open('GET', '/telling-stories.json');
     httpRequest.send();
+
+    document.querySelector('.embed-link').addEventListener('click', function() {
+      try {
+        var url = document.getElementById('tsplayer').contentWindow.location.href;
+        url = url.replace("runner", "embed");
+
+        window.location = url;
+      } catch(e) {
+      }
+    });
   </script>
   </body>
 </html>

@@ -35,6 +35,7 @@ module.exports = {
     fs.unlinkSync(path.resolve(dir, 'index.html'));
     fs.renameSync(path.resolve(dir, 'tests/index.html'), path.resolve(dir, 'runner.html'));
     fs.renameSync(path.resolve(dir, 'telling-stories/viewer.html'), path.resolve(dir, 'index.html'));
+    fs.renameSync(path.resolve(dir, 'telling-stories/embed.html'), path.resolve(dir, 'embed.html'));
   },
 
   treeFor: function() {

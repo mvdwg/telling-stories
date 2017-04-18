@@ -107,3 +107,28 @@ body,
   max-width: 450px;
   display: inline-block;
 }
+
+.ts .embed-player {
+  width: 100vw;
+  height: 100vh;
+  border: none;
+}
+
+#refresh-btn {
+  display: block;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translateY(-50%) translateX(-50%);
+  cursor: pointer;
+  opacity: .5;
+}
+
+#refresh-btn:hover {
+  opacity: 1;
+}
+
+.ts .embed-link {
+  padding-top: 15px;
+  padding-right: 20px;
+}

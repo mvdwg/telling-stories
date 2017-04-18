@@ -22,6 +22,10 @@
   filter: blur(3px) opacity(50%);
 }
 
+#ember-testing-container {
+  border-style: none;
+}
+
 /* Player */
 #tsPointer {
   position: fixed;
