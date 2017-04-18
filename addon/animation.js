@@ -361,6 +361,26 @@ function log(message, className) {
   });
 }
 
+function annotation(message, container) {
+  let annotation = $('#tsAnnotation', container);
+
+  if (!annotation.length) {
+    annotation = $('<span id="tsAnnotation"></span>');
+
+    $(container).append(annotation);
+  }
+
+  return new RSVP.Promise(function(resolve) {
+    annotation.text(message).fadeIn(250);
+
+    sleep(3500).then(() => {
+      annotation.fadeOut(250, function() {
+        resolve();
+      });
+    });
+  });
+}
+
 function addBlur() {
   $('#ember-testing-container').addClass('no-filter');
 }
@@ -380,5 +400,6 @@ export default {
   typing,
   triggerEvent,
   selectText,
+  annotation,
   show
 };

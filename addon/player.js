@@ -141,7 +141,7 @@ class Player extends BasePlayer {
 
   annotate(message) {
     if (message) {
-      this.addTask(Animation.log, message, 'ts-log-message-annotation');
+      this.addTask(Animation.annotation, message, this.container);
     }
 
     return this;
