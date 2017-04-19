@@ -94,6 +94,7 @@
   font-size: 30px;
   color: #222;
   text-shadow: 1px 1px 1px rgba(255,255,255,1);
+  text-transform: capitalize;
 }
 
 .tsOSD .module-name {
@@ -103,6 +104,7 @@
   color: #3f75bb;
   font-family: monospace;
   text-shadow: 1px 1px 1px rgba(255,255,255,.7);
+  text-transform: capitalize;
 }
 
 .no-filter {
