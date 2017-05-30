@@ -10,9 +10,13 @@ export function shutdown(returnValue) {
 
   if (window.QUnit && window.QUnit.urlParams.tellingStories) {
     return new RSVP.Promise(function(resolve) {
-      player()
-        .beforeEnd()
-        .then(() => resolve(promise));
+      if (player()) {
+        player()
+          .beforeEnd()
+          .then(() => resolve(promise));
+      } else {
+        resolve(promise);
+      }
     });
   }
 
@@ -54,6 +58,7 @@ export function testEnd() {
 }
 
 export function assertionEnded({message, expected, actual, result}) {
+  if (!player()) { return; }
   message = $.trim(message);
   if (message) {
     player().afterAssertion(result, expected, actual, message);
