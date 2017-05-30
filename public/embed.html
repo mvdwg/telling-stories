@@ -4,8 +4,8 @@
   </head>
   <body class="ts">
 
-    <iframe id="embed-player"src:"data:text/plain,Loading"></iframe>
-    <svg id="refresh-btn" width="50" height="50" viewBox="0 0 54.344 55.625" version="1.1">
+    <iframe id="embed-player" src:"data:text/plain,Loading"></iframe>
+    <svg id="refresh-btn" class="ts-hidden" width="50" height="50" viewBox="0 0 54.344 55.625" version="1.1">
       <g transform="translate(-344.94 -314.12)">
         <path
         style="block-progression:tb;text-indent:0;color:#000000;text-transform:none;fill:#000000"
@@ -23,6 +23,14 @@
       document.getElementById('refresh-btn').addEventListener('click', function() {
         iframe.src = "runner.html" + srch;
       });
+
+      window.addEventListener('message', function(event) {
+        if (event.data === "telling-stories:testStart") {
+          document.getElementById('refresh-btn').classList.add("ts-hidden");
+        } else if (event.data === "telling-stories:testEnd") {
+          document.getElementById('refresh-btn').classList.remove("ts-hidden");
+        }
+      }, false);
     </script>
   </body>
 </html>

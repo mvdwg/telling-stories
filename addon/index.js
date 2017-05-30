@@ -41,9 +41,16 @@ export function testStart(context) {
     createPlayer(container, context);
     player().beforeVisit(context.name);
   }
+
+  if (window.parent) {
+    window.parent.postMessage("telling-stories:testStart", "*");
+  }
 }
 
 export function testEnd() {
+  if (window.parent) {
+    window.parent.postMessage("telling-stories:testEnd", "*");
+  }
 }
 
 export function assertionEnded({message, expected, actual, result}) {

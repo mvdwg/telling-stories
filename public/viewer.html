@@ -33,6 +33,8 @@
   </script>
 
   <script>
+    var embedLink = document.querySelector('.embed-link');
+
     function processFeaturesJson() {
       if (httpRequest.readyState === XMLHttpRequest.DONE) {
         if (httpRequest.status === 200) {
@@ -53,6 +55,16 @@
           }).join('');
 
           document.getElementById('features').innerHTML = html;
+
+          Array.prototype.forEach.call(document.getElementsByClassName('ts-feature-item'), function(link) {
+            link.addEventListener('click', function() {
+              var href = this.href;
+
+              href = href.replace("runner", "embed");
+
+              embedLink.href = href;
+            }, false);
+          });
         }
       }
     }
@@ -60,16 +72,6 @@
     httpRequest.onreadystatechange = processFeaturesJson;
     httpRequest.open('GET', '/telling-stories.json');
     httpRequest.send();
-
-    document.querySelector('.embed-link').addEventListener('click', function() {
-      try {
-        var url = document.getElementById('tsplayer').contentWindow.location.href;
-        url = url.replace("runner", "embed");
-
-        window.location = url;
-      } catch(e) {
-      }
-    });
   </script>
   </body>
 </html>

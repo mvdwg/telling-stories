@@ -115,13 +115,16 @@ body,
 }
 
 #refresh-btn {
-  display: block;
   position: fixed;
   left: 50%;
   top: 50%;
   transform: translateY(-50%) translateX(-50%);
   cursor: pointer;
   opacity: .5;
+}
+
+.ts-hidden {
+  display: none;
 }
 
 #refresh-btn:hover {
