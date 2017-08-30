@@ -40,13 +40,20 @@ TellingStoriesContext.prototype = {
       .afterClick();
   },
 
-  fillIn(selector, container, text) {
+  fillIn(selector, container, opts, text) {
     container = container || '#ember-testing';
+    let content;
+
+    if (arguments.length > 3) {
+      content = text;
+    } else {
+      content = opts;
+    }
 
     player()
-      .beforeFillIn({selector, container, text})
+      .beforeFillIn({selector, container, text: content})
       .then(() => {
-        fillIn(selector, container, text);
+        fillIn(selector, container, content);
       })
       .afterFillIn();
   },
