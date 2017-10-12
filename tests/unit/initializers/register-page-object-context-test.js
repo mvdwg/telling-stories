@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import RegisterPageObjectContextInitializer from 'dummy/initializers/register-page-object-context';
+import RegisterPageObjectContextInitializer from 'dummy/initializers/register-override-test-helper-initializer';
 import { module, test } from 'qunit';
 
 let application;
